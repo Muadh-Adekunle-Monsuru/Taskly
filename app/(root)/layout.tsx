@@ -1,6 +1,8 @@
 'use client';
-import { ModeToggle } from '@/components/ModeToggle';
-import SidebarContent from '@/components/SidebarContent';
+import MobileSidebarButton from '@/components/sidebar/MobileSidebarButton';
+import { ModeToggle } from '@/components/sidebar/ModeToggle';
+import SidebarContent from '@/components/sidebar/SidebarContent';
+import PanelToggle from '@/components/ui/PanelToggle';
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -8,6 +10,7 @@ import {
 } from '@/components/ui/resizable';
 import { useZustandStore } from '@/store/store';
 import { PanelLeft } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function DashboardLayout({
 	children,
@@ -15,20 +18,31 @@ export default function DashboardLayout({
 	children: React.ReactNode;
 }>) {
 	const openSidebar = useZustandStore((state) => state.isSidebarOpen);
+	const isMobile = useZustandStore((state) => state.isMobile);
+	const setIsMobile = useZustandStore((state) => state.setIsMobile);
+	useEffect(() => {
+		// Function to check screen size
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth <= 768); // Typically, mobile screens are <= 768px
+		};
+
+		// Call function on mount
+		checkMobile();
+
+		// Add event listener to update on resize
+		window.addEventListener('resize', checkMobile);
+
+		// Clean up the event listener on component unmount
+		return () => window.removeEventListener('resize', checkMobile);
+	}, []);
 	return (
 		<ResizablePanelGroup
 			direction='horizontal'
 			className='min-h-screen w-full dark:bg-[#1f1f1f] dark:text-gray-400'
 		>
-			{openSidebar && (
+			{openSidebar && !isMobile && (
 				<>
-					<ResizablePanel
-						maxSize={25}
-						minSize={10}
-						defaultSize={20}
-						id='sidebar'
-						order={1}
-					>
+					<ResizablePanel maxSize={25} defaultSize={20} id='sidebar' order={1}>
 						<SidebarContent />
 					</ResizablePanel>
 					<ResizableHandle />
@@ -36,7 +50,11 @@ export default function DashboardLayout({
 			)}
 
 			<ResizablePanel order={2} id={'main-body'}>
-				{children}
+				<div className='w-full h-full p-4'>
+					<PanelToggle />
+					{isMobile && <MobileSidebarButton />}
+					{children}
+				</div>
 			</ResizablePanel>
 		</ResizablePanelGroup>
 	);

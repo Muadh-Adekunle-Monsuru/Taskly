@@ -1,11 +1,12 @@
 import PanelToggle from '@/components/ui/PanelToggle';
-import { PanelLeft } from 'lucide-react';
 import React from 'react';
 
 export default function page() {
 	return (
-		<div className='h-full w-full relative p-6'>
-			<PanelToggle />
+		<div className='p-4'>
+			<div className='md:p-10'>
+				<h1 className='text-3xl font-bold'>Today</h1>
+			</div>
 		</div>
 	);
 }

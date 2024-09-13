@@ -14,6 +14,7 @@ export default function PanelToggle() {
 				isOpen ? 'opacity-0' : 'opacity-100'
 			)}
 			onClick={togglePanel}
+			strokeWidth={1.25}
 		/>
 	);
 }

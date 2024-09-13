@@ -7,7 +7,7 @@ export default function Home() {
 		<div className=' h-screen flex flex-col items-center justify-center gap-5'>
 			<h1 className='text-3xl'>Enter Dashboard</h1>
 			<Button asChild>
-				<Link href={'/dashboard'}>Dashboard</Link>
+				<Link href={'/inbox'}>Dashboard</Link>
 			</Button>
 		</div>
 	);
