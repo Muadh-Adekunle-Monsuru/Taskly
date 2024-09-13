@@ -21,9 +21,45 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from './ui/button';
 import { DatePickerDemo } from './DatePicker';
+import PrioritySelect from './PrioritySelect';
+import LabelSelect from './LabelSelect';
+import ProjectSelect from './ProjectSelect';
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { useUser } from '@clerk/nextjs';
 
 export default function AddTasksInline() {
 	const [showExpanded, setShowExpanded] = useState(false);
+	const [content, setContent] = useState('');
+	const [description, setDescription] = useState('');
+	const [priority, setPriority] = useState('');
+	const [label, setLabel] = useState('');
+	const [dueDate, setDueDate] = useState<Date | undefined>();
+	const [project, setProject] = useState('inbox');
+	const mutation = useMutation(api.actions.createTask);
+	const { user } = useUser();
+	const handleCreateTask = async () => {
+		if (!user) return;
+
+		const data = {
+			userId: user?.id,
+			content,
+			description,
+			priority,
+			label,
+			dueDate: dueDate?.toISOString(),
+			project,
+			createdDate: Date.now().toString(),
+		};
+		console.log(data);
+		const response = await mutation({ ...data });
+		setContent('');
+		setDescription('');
+		setPriority('');
+		setLabel('');
+		setDueDate(undefined);
+		setProject('inbox');
+	};
 	return (
 		<>
 			{!showExpanded ? (
@@ -44,73 +80,23 @@ export default function AddTasksInline() {
 					<Input
 						placeholder='Task name '
 						className='border-0 p-0 font-medium'
+						value={content}
+						onChange={(e) => setContent(e.target.value)}
 					/>
 					<Input
 						placeholder='Description'
 						className='border-0 p-0 text-xs h-5'
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
 					/>
 					<div className='flex gap-2 items-center py-2'>
-						<DatePickerDemo />
-						<DropdownMenu>
-							<DropdownMenuTrigger>
-								<div className='flex gap-1 items-center border p-3 rounded-sm text-gray-500 cursor-pointer'>
-									<Flag className='size-3' />
-									<p className='text-xs'>Priority</p>
-								</div>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent>
-								<DropdownMenuItem>
-									<Flag className='text-red-600 size-4 mr-1' />
-									Priority 1
-								</DropdownMenuItem>
-								<DropdownMenuItem>
-									<Flag className='text-orange-600 size-4 mr-1' />
-									Priority 2
-								</DropdownMenuItem>
-								<DropdownMenuItem>
-									<Flag className='text-blue-600 size-4 mr-1' />
-									Priority 3
-								</DropdownMenuItem>
-								<DropdownMenuItem>
-									<Flag className=' size-4 mr-1' />
-									Priority 4
-								</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
-						<DropdownMenu>
-							<DropdownMenuTrigger>
-								<div className='flex gap-1 items-center border p-3 rounded-sm text-gray-500 cursor-pointer'>
-									<Tags className='size-3' />
-									<p className='text-xs'>Labels</p>
-								</div>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent>
-								<DropdownMenuItem>Personal</DropdownMenuItem>
-								<DropdownMenuItem>School</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
+						<DatePickerDemo setDueDate={setDueDate} />
+						<PrioritySelect setPriority={setPriority} />
+						<LabelSelect setLabel={setLabel} />
 					</div>
 					<DropdownMenuSeparator />
 					<div className='flex w-full items-center justify-between py-2'>
-						<DropdownMenu>
-							<DropdownMenuTrigger>
-								<div className='flex gap-2 items-center border p-2 rounded-sm text-gray-500 cursor-pointer'>
-									<Tags className='size-3' />
-									<p className='text-xs'>Inbox</p>
-									<ChevronDown className='size-3' />
-								</div>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent>
-								<DropdownMenuItem>
-									<Hash className='size-4 mr-1' strokeWidth={1.25} />
-									Personal
-								</DropdownMenuItem>
-								<DropdownMenuItem>
-									<Hash className='size-4 mr-1' strokeWidth={1.25} />
-									School
-								</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
+						<ProjectSelect setProject={setProject} />
 						<div className='flex gap-2 items-center'>
 							<Button
 								variant={'ghost'}
@@ -119,7 +105,9 @@ export default function AddTasksInline() {
 							>
 								Cancel
 							</Button>
-							<Button size={'sm'}>Add task</Button>
+							<Button size={'sm'} onClick={() => handleCreateTask()}>
+								Add task
+							</Button>
 						</div>
 					</div>
 				</div>

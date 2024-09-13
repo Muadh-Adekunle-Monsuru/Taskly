@@ -7,7 +7,6 @@ import React from 'react';
 
 export default function InboxSidebar() {
 	const pathname = usePathname();
-	console.log(pathname);
 	return (
 		<Link
 			href={'/inbox'}

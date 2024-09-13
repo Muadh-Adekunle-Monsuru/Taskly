@@ -49,7 +49,7 @@ export default function DashboardLayout({
 				</>
 			)}
 
-			<ResizablePanel order={2} id={'main-body'}>
+			<ResizablePanel order={2} id={'main-body'} defaultSize={80}>
 				<div className='w-full h-full p-4'>
 					<PanelToggle />
 					{isMobile && <MobileSidebarButton />}
