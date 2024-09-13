@@ -10,8 +10,8 @@ export default function Upcoming() {
 		<Link
 			href={'/upcoming'}
 			className={cn(
-				'w-full flex items-center gap-2  rounded-md p-2 hover:bg-neutral-100 transition-colors cursor-pointer',
-				pathname == '/upcoming' && 'bg-neutral-200'
+				'w-full flex items-center gap-2  rounded-md p-2 hover:bg-neutral-100 transition-colors cursor-pointer  dark:hover:bg-neutral-700 ',
+				pathname == '/upcoming' && 'bg-neutral-200 dark:bg-neutral-600'
 			)}
 		>
 			<CalendarDays
