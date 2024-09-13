@@ -1,4 +1,6 @@
 'use client';
+import { ModeToggle } from '@/components/ModeToggle';
+import SidebarContent from '@/components/SidebarContent';
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -13,11 +15,10 @@ export default function DashboardLayout({
 	children: React.ReactNode;
 }>) {
 	const openSidebar = useZustandStore((state) => state.isSidebarOpen);
-	const togglePanel = useZustandStore((state) => state.toggleSidebar);
 	return (
 		<ResizablePanelGroup
 			direction='horizontal'
-			className='min-h-screen  w-full'
+			className='min-h-screen w-full dark:bg-[#1f1f1f] dark:text-gray-400'
 		>
 			{openSidebar && (
 				<>
@@ -28,10 +29,7 @@ export default function DashboardLayout({
 						id='sidebar'
 						order={1}
 					>
-						<div className='flex h-full  p-6'>
-							<span className='font-semibold'>Sidebar</span>
-							<PanelLeft className='size-5' onClick={togglePanel} />
-						</div>
+						<SidebarContent />
 					</ResizablePanel>
 					<ResizableHandle />
 				</>

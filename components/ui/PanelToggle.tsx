@@ -9,7 +9,10 @@ export default function PanelToggle() {
 	const isOpen = useZustandStore((state) => state.isSidebarOpen);
 	return (
 		<PanelLeft
-			className={cn('size-5 ', isOpen ? 'opacity-0' : 'opacity-100')}
+			className={cn(
+				'size-5  cursor-pointer',
+				isOpen ? 'opacity-0' : 'opacity-100'
+			)}
 			onClick={togglePanel}
 		/>
 	);
