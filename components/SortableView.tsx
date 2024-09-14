@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	DndContext,
 	closestCenter,
@@ -7,6 +7,7 @@ import {
 	PointerSensor,
 	useSensor,
 	useSensors,
+	DragOverlay,
 } from '@dnd-kit/core';
 import {
 	arrayMove,
@@ -20,6 +21,7 @@ import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs';
 import { TaskProp } from '@/lib';
+import { PresentationalItem } from './DraggableOverlay';
 
 export default function SortableComponent({
 	data,
@@ -30,7 +32,12 @@ export default function SortableComponent({
 }) {
 	const updateListOrder = useMutation(api.actions.updateOrder);
 	const [items, setItems] = useState(data);
+	const [activeId, setActiveId] = useState<string | null>(null);
 	const ids = items.map((task) => task.taskId);
+	useEffect(() => {
+		if (!data) return;
+		setItems(data);
+	}, [data]);
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, {
@@ -42,6 +49,7 @@ export default function SortableComponent({
 		<DndContext
 			sensors={sensors}
 			collisionDetection={closestCenter}
+			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
 		>
 			<SortableContext items={ids} strategy={verticalListSortingStrategy}>
@@ -51,24 +59,38 @@ export default function SortableComponent({
 					))}
 				</div>
 			</SortableContext>
+
+			{/* DragOverlay for rendering the item being dragged */}
+			<DragOverlay>
+				{activeId ? (
+					<PresentationalItem
+						data={items.find((task) => task.taskId === activeId)!}
+					/>
+				) : null}
+			</DragOverlay>
 		</DndContext>
 	);
+
+	function handleDragStart(event) {
+		const { active } = event;
+		setActiveId(active.id);
+	}
 
 	function handleDragEnd(event) {
 		const { active, over } = event;
 
-		if (active.id !== over.id) {
-			console.log(active.id);
+		if (active.id !== over?.id) {
 			setItems((items) => {
-				const oldIndex = items.findIndex((task) => task.taskId == active.id);
-				const newIndex = items.findIndex((task) => task.taskId == over.id);
+				const oldIndex = items.findIndex((task) => task.taskId === active.id);
+				const newIndex = items.findIndex((task) => task.taskId === over?.id);
 
 				const arr = arrayMove(items, oldIndex, newIndex);
-				console.log(arr);
-
 				updateListOrder({ userId, newArr: arr });
 				return arr;
 			});
 		}
+
+		// Clear activeId after dragging ends
+		setActiveId(null);
 	}
 }

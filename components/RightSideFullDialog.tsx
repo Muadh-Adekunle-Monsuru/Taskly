@@ -7,24 +7,37 @@ import { DatePickerDemo } from './DatePicker';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
+import LabelSelect from './LabelSelect';
+import { useUser } from '@clerk/nextjs';
 
 export default function RightSideFullDialog({ data }: { data: TaskProp }) {
-	const [project, setProject] = useState('');
-	const [priority, setPriority] = useState('');
+	const { user } = useUser();
+	const [project, setProject] = useState(data.project);
+	const [priority, setPriority] = useState(data.priority);
 	const [dueDate, setDate] = useState<Date | undefined>();
+	const [label, setLabel] = useState(data.label);
 	const updateTask = useMutation(api.actions.updateTask);
 
-	// useEffect(() => {
-	// 	if (project == data.project) return;
-	// 	const updateFunction = async () => {
-	// 		console.log('updating');
-	// 		await updateTask({
-	// 			_id: data._id as Id<'documents'>,
-	// 			data: { project, priority },
-	// 		});
-	// 	};
-	// 	updateFunction();
-	// }, [project, priority, dueDate]);
+	useEffect(() => {
+		if (
+			project == data.project &&
+			priority == data.priority &&
+			label == data.label
+		)
+			return;
+
+		const newData = {
+			project: project ?? data.project,
+			priority: priority ?? data.priority,
+			dueDate: dueDate?.toISOString() || data.dueDate,
+			label: label ?? data.label,
+		};
+		console.log(newData);
+		const updateFunction = async () => {
+			updateTask({ userId: user?.id, data: newData, taskId: data.taskId });
+		};
+		updateFunction();
+	}, [project, priority, dueDate, label]);
 
 	return (
 		<div className='w-full h-full flex flex-col gap-3 p-4'>
@@ -34,11 +47,18 @@ export default function RightSideFullDialog({ data }: { data: TaskProp }) {
 			</div>
 			<div className='flex flex-col gap-1 border-b border-b-neutral-200 pb-2'>
 				<p className='text-sm font-medium text-neutral-600'>Priority</p>
-				<PrioritySelect setPriority={setPriority} />
+				<PrioritySelect
+					setPriority={setPriority}
+					defaultValue={data.priority}
+				/>
+			</div>
+			<div className='flex flex-col gap-1 border-b border-b-neutral-200 pb-2'>
+				<p className='text-sm font-medium text-neutral-600'>Label</p>
+				<LabelSelect setLabel={setLabel} defaultValue={data.label} />
 			</div>
 			<div className='flex flex-col gap-1 border-b border-b-neutral-200 pb-2'>
 				<p className='text-sm font-medium text-neutral-600'>Due date</p>
-				<DatePickerDemo setDueDate={setDate} />
+				<DatePickerDemo setDueDate={setDate} selectedDate={data.dueDate} />
 			</div>
 		</div>
 	);

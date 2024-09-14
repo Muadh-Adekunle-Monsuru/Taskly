@@ -20,12 +20,13 @@ export function DatePickerDemo({
 	selectedDate?: string;
 	setDueDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }) {
-	const [date, setDate] = React.useState<Date>();
+	const prevDate = new Date(selectedDate);
+
 	const onSelect = (value: Date | undefined) => {
 		if (!value) return;
-		setDate(value);
 		setDueDate(value);
 	};
+
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
@@ -37,13 +38,17 @@ export function DatePickerDemo({
 					)}
 				>
 					<CalendarIcon className='mr-2 h-4 w-4' />
-					{date ? format(date, 'MMM dd') : <span className=''>Due date</span>}
+					{prevDate ? (
+						format(prevDate, 'MMM dd')
+					) : (
+						<span className=''>Due date</span>
+					)}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className='w-auto p-0'>
 				<Calendar
 					mode='single'
-					selected={date}
+					selected={prevDate}
 					onSelect={onSelect}
 					initialFocus
 				/>

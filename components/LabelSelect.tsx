@@ -10,14 +10,16 @@ import { Tags } from 'lucide-react';
 
 export default function LabelSelect({
 	setLabel,
+	defaultValue,
 }: {
 	setLabel: React.Dispatch<React.SetStateAction<string>>;
+	defaultValue?: string;
 }) {
 	return (
-		<Select onValueChange={(e) => setLabel(e)}>
+		<Select onValueChange={(e) => setLabel(e)} defaultValue={defaultValue}>
 			<SelectTrigger className='w-fit gap-2 flex items-center'>
 				<Tags className='size-4' />
-				<SelectValue placeholder='Labels' />
+				<SelectValue placeholder={defaultValue || 'Label'} />
 			</SelectTrigger>
 			<SelectContent>
 				<SelectItem value='Personal'>Personal</SelectItem>

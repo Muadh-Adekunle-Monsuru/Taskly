@@ -4,10 +4,12 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import TaskItem from './TaskItem';
 import { GripVertical } from 'lucide-react';
+import { TaskProp } from '@/lib';
 
-export function SortableItem(props) {
+// SortableItem which uses useSortable for drag-and-drop behavior
+export function SortableItem({ id, data }: { id: string; data: TaskProp }) {
 	const { attributes, listeners, setNodeRef, transform, transition } =
-		useSortable({ id: props.id });
+		useSortable({ id });
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
@@ -23,9 +25,9 @@ export function SortableItem(props) {
 		>
 			<GripVertical
 				{...listeners}
-				className='hover:cursor-grab active:cursor-grabbing size-4 opacity-0 group-hover:opacity-100 transition-all  text-neutral-500'
+				className='hover:cursor-grab active:cursor-grabbing size-4 opacity-0 group-hover:opacity-100 transition-all text-neutral-500'
 			/>
-			<TaskItem data={props.data} />
+			<TaskItem data={data} />
 		</div>
 	);
 }

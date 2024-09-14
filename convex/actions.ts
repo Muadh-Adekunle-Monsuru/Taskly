@@ -67,7 +67,8 @@ export const deleteTask = mutation({
 
 export const updateTask = mutation({
 	args: {
-		_id: v.id('documents'),
+		taskId: v.string(),
+		userId: v.string(),
 		data: v.object({
 			content: v.optional(v.string()),
 			description: v.optional(v.string()),
@@ -79,8 +80,15 @@ export const updateTask = mutation({
 		}),
 	},
 	handler: async (ctx, args) => {
-		console.log('updating', args.data);
-		await ctx.db.patch(args._id, { ...args.data });
+		const userData = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.first();
+
+		const updatedTaskList = userData.tasks.map((task: any) =>
+			task.taskId == args.taskId ? { ...task, ...args.data } : task
+		);
+		await ctx.db.patch(userData._id, { tasks: updatedTaskList });
 	},
 });
 

@@ -7,16 +7,19 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Flag } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function PrioritySelect({
 	setPriority,
+	defaultValue,
 }: {
 	setPriority: React.Dispatch<React.SetStateAction<string>>;
+	defaultValue?: string;
 }) {
 	return (
-		<Select onValueChange={(e) => setPriority(e)}>
+		<Select onValueChange={(e) => setPriority(e)} defaultValue={defaultValue}>
 			<SelectTrigger className='w-fit flex items-center gap-2'>
-				<SelectValue placeholder='Priority' />
+				<SelectValue placeholder={defaultValue || 'Priority'} />
 			</SelectTrigger>
 			<SelectContent>
 				<SelectItem value='1'>

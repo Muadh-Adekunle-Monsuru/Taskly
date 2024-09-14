@@ -16,7 +16,7 @@ export default function ProjectSelect({
 	setProject: React.Dispatch<React.SetStateAction<string>>;
 }) {
 	return (
-		<Select onValueChange={(e) => setProject(e)}>
+		<Select onValueChange={(e) => setProject(e)} defaultValue={defaultValue}>
 			<SelectTrigger className='w-fit flex gap-2 items-center'>
 				<Hash className='size-4' />
 				<SelectValue placeholder={defaultValue || 'Inbox'} />

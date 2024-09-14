@@ -7,7 +7,7 @@ export default function page() {
 	return (
 		<div className='p-4'>
 			<div className='md:p-5 max-w-[50rem] mx-auto'>
-				<h1 className='text-3xl font-bold pb-5 sticky top-0 backdrop-blur-sm'>
+				<h1 className='text-3xl font-bold pb-5 sticky top-0 backdrop-blur-sm z-10'>
 					Inbox
 				</h1>
 				<InboxTaskList />
