@@ -5,6 +5,7 @@ import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs';
 import { Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
+import TaskItem from './TaskItem';
 
 export default function InboxTaskList() {
 	const { user } = useUser();
@@ -19,17 +20,8 @@ export default function InboxTaskList() {
 	}
 	const tasks = useQuery(api.actions.getAllTasks, { userId: user?.id });
 	return (
-		<div>
-			{tasks?.map((task) => (
-				<div className='w-full cursor-pointer p-2'>
-					<p>{task.content}</p>
-					<div className='flex gap-1'>
-						<span>{format(task.dueDate, 'MMM dd')}</span>
-
-						<span>{task.label}</span>
-					</div>
-				</div>
-			))}
+		<div className='flex flex-col gap-1'>
+			{tasks?.map((task, index) => <TaskItem data={task} key={index} />)}
 		</div>
 	);
 }

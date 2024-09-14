@@ -9,7 +9,7 @@ import {
 	Tag,
 	Tags,
 } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
 import { Input } from './ui/input';
 import {
 	DropdownMenu,
@@ -38,9 +38,16 @@ export default function AddTasksInline() {
 	const [project, setProject] = useState('inbox');
 	const mutation = useMutation(api.actions.createTask);
 	const { user } = useUser();
+
+	const handleContentInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key == 'Enter') {
+			handleCreateTask();
+		}
+	};
+
 	const handleCreateTask = async () => {
 		if (!user) return;
-
+		if (!content) return;
 		const data = {
 			userId: user?.id,
 			content,
@@ -60,6 +67,7 @@ export default function AddTasksInline() {
 		setDueDate(undefined);
 		setProject('inbox');
 	};
+
 	return (
 		<>
 			{!showExpanded ? (
@@ -82,12 +90,15 @@ export default function AddTasksInline() {
 						className='border-0 p-0 font-medium'
 						value={content}
 						onChange={(e) => setContent(e.target.value)}
+						onKeyDown={handleContentInput}
+						autoFocus
 					/>
 					<Input
 						placeholder='Description'
 						className='border-0 p-0 text-xs h-5'
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
+						onKeyDown={handleContentInput}
 					/>
 					<div className='flex gap-2 items-center py-2'>
 						<DatePickerDemo setDueDate={setDueDate} />

@@ -6,7 +6,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { Tags } from 'lucide-react';
+import { Inbox, Tags } from 'lucide-react';
 
 export default function ProjectSelect({
 	setProject,
@@ -16,7 +16,7 @@ export default function ProjectSelect({
 	return (
 		<Select onValueChange={(e) => setProject(e)}>
 			<SelectTrigger className='w-fit flex gap-2 items-center'>
-				<Tags className='size-4' />
+				<Inbox className='size-4' />
 				<SelectValue placeholder='Inbox' />
 			</SelectTrigger>
 			<SelectContent>

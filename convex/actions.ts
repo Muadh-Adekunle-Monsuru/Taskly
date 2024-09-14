@@ -32,6 +32,16 @@ export const createTask = mutation({
 	},
 });
 
+export const deleteTask = mutation({
+	args: {
+		taskId: v.id('documents'),
+	},
+	handler: async (ctx, args) => {
+		const result = await ctx.db.delete(args.taskId);
+		return result;
+	},
+});
+
 export const getAllTasks = query({
 	args: { userId: v.string() },
 	handler: async (ctx, args) => {

@@ -16,7 +16,6 @@ export default function PrioritySelect({
 	return (
 		<Select onValueChange={(e) => setPriority(e)}>
 			<SelectTrigger className='w-fit flex items-center gap-2'>
-				<Flag className='size-4' />
 				<SelectValue placeholder='Priority' />
 			</SelectTrigger>
 			<SelectContent>
@@ -40,7 +39,7 @@ export default function PrioritySelect({
 				</SelectItem>
 				<SelectItem value='4'>
 					<div className='flex gap-1 items-center'>
-						<Flag className=' size-4 mr-1' />
+						<Flag className=' size-4 mr-1 text-neutral-400' />
 						Priority 4
 					</div>
 				</SelectItem>
