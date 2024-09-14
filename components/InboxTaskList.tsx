@@ -6,6 +6,8 @@ import { useUser } from '@clerk/nextjs';
 import { Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import TaskItem from './TaskItem';
+import SortableComponent from './SortableView';
+import { TaskProp } from '@/lib';
 
 export default function InboxTaskList() {
 	const { user } = useUser();
@@ -18,10 +20,13 @@ export default function InboxTaskList() {
 			</div>
 		);
 	}
-	const tasks = useQuery(api.actions.getAllTasks, { userId: user?.id });
+	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
+		userId: user?.id,
+	});
+
 	return (
 		<div className='flex flex-col gap-1'>
-			{tasks?.map((task, index) => <TaskItem data={task} key={index} />)}
+			{tasks && <SortableComponent data={tasks} userId={user.id} />}
 		</div>
 	);
 }

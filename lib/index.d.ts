@@ -1,5 +1,4 @@
 export type TaskProp = {
-	userId: string;
 	content: string;
 	description?: string;
 	priority?: string;
@@ -9,5 +8,5 @@ export type TaskProp = {
 	project?: string;
 	createdDate: string;
 	comment: string;
-	_id: string;
+	taskId: string;
 };

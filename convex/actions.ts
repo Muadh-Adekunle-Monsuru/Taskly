@@ -12,33 +12,56 @@ export const get = query({
 export const createTask = mutation({
 	args: {
 		userId: v.string(),
-		content: v.string(),
-		description: v.optional(v.string()),
-		priority: v.optional(v.string()),
-		indent: v.optional(v.string()),
-		dueDate: v.optional(v.string()),
-		label: v.optional(v.string()),
-		project: v.optional(v.string()),
-		createdDate: v.string(),
+		data: v.array(
+			v.object({
+				content: v.string(),
+				description: v.optional(v.string()),
+				priority: v.optional(v.string()),
+				indent: v.optional(v.string()),
+				dueDate: v.optional(v.string()),
+				label: v.optional(v.string()),
+				project: v.optional(v.string()),
+				createdDate: v.string(),
+				taskId: v.string(),
+			})
+		),
 	},
 	handler: async (ctx, args) => {
-		if (!args.content || !args.userId) return;
+		const userData = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.first();
 
-		const data = await ctx.db.insert('documents', {
-			...args,
-		});
-
-		return data;
+		if (!userData) {
+			const data = await ctx.db.insert('documents', {
+				userId: args.userId,
+				tasks: [...args.data],
+			});
+		} else {
+			const updatedTask = [...userData.tasks, ...args.data];
+			const update = await ctx.db.patch(userData._id, { tasks: updatedTask });
+		}
 	},
 });
 
 export const deleteTask = mutation({
 	args: {
-		taskId: v.id('documents'),
+		taskId: v.string(),
+		userId: v.string(),
 	},
 	handler: async (ctx, args) => {
-		const result = await ctx.db.delete(args.taskId);
-		return result;
+		const userData = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.first();
+
+		const updatedTaskList = userData.tasks.filter(
+			(task: any) => task.taskId !== args.taskId
+		);
+
+		const updateList = await ctx.db.patch(userData._id, {
+			tasks: updatedTaskList,
+		});
 	},
 });
 
@@ -67,8 +90,37 @@ export const getAllTasks = query({
 		const tasks = await ctx.db
 			.query('documents')
 			.filter((q) => q.eq(q.field('userId'), args.userId))
-			.collect();
+			.first();
 
-		return tasks;
+		return tasks.tasks;
+	},
+});
+
+export const updateOrder = mutation({
+	args: {
+		userId: v.string(),
+		newArr: v.array(
+			v.object({
+				content: v.string(),
+				description: v.optional(v.string()),
+				priority: v.optional(v.string()),
+				indent: v.optional(v.string()),
+				dueDate: v.optional(v.string()),
+				label: v.optional(v.string()),
+				project: v.optional(v.string()),
+				createdDate: v.string(),
+				taskId: v.string(),
+			})
+		),
+	},
+	handler: async (ctx, args) => {
+		const userData = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.first();
+
+		const updateList = await ctx.db.patch(userData._id, {
+			tasks: args.newArr,
+		});
 	},
 });

@@ -27,6 +27,7 @@ import ProjectSelect from './ProjectSelect';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs';
+import { nanoid } from 'nanoid';
 
 export default function AddTasksInline() {
 	const [showExpanded, setShowExpanded] = useState(false);
@@ -49,7 +50,6 @@ export default function AddTasksInline() {
 		if (!user) return;
 		if (!content) return;
 		const data = {
-			userId: user?.id,
 			content,
 			description,
 			priority,
@@ -57,9 +57,9 @@ export default function AddTasksInline() {
 			dueDate: dueDate?.toISOString(),
 			project,
 			createdDate: Date.now().toString(),
+			taskId: nanoid(),
 		};
-		console.log(data);
-		const response = await mutation({ ...data });
+		const response = await mutation({ userId: user?.id, data: [data] });
 		setContent('');
 		setDescription('');
 		setPriority('');

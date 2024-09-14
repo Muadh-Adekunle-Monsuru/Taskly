@@ -27,7 +27,7 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 				)}
 				onClick={(e) => {
 					e.stopPropagation();
-					deleteTask({ taskId: data._id as Id<'documents'> });
+					deleteTask({ userId: user?.id, taskId: data.taskId });
 				}}
 			>
 				<Check

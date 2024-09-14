@@ -10,17 +10,20 @@ import {
 import { format } from 'date-fns';
 import { TaskProp } from '@/lib';
 import TaskFullDialog from './TaskFullDialog';
-import { Calendar, Check, Circle, Tag } from 'lucide-react';
+import { Calendar, Check, Circle, GripVertical, Tag } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
+import { useUser } from '@clerk/nextjs';
 
 function TaskListDisplay({ data }: { data: TaskProp }) {
-	const { content, dueDate, label, priority, _id, description } = data;
+	const { content, dueDate, label, priority, description, taskId } = data;
 	const deleteTask = useMutation(api.actions.deleteTask);
+	const { user } = useUser();
 	return (
-		<div className='w-full cursor-pointer p-2 border-b border-b-neutral-200'>
+		<div className='w-full cursor-pointer p-2 border-b border-b-neutral-200 relative group'>
+
 			<div className='flex items-center gap-2'>
 				<div
 					className={cn(
@@ -32,9 +35,9 @@ function TaskListDisplay({ data }: { data: TaskProp }) {
 						priority == '1' &&
 							' text-transparent bg-red-50 border-2 border-red-500'
 					)}
-					onClick={(e) => {
+					onClick={async (e) => {
 						e.stopPropagation();
-						deleteTask({ taskId: _id as Id<'documents'> });
+						await deleteTask({ taskId, userId: user?.id });
 					}}
 				>
 					<Check
@@ -72,7 +75,7 @@ function TaskListDisplay({ data }: { data: TaskProp }) {
 export default function TaskItem({ data }: { data: TaskProp }) {
 	return (
 		<Dialog>
-			<DialogTrigger>
+			<DialogTrigger className='w-full'>
 				<TaskListDisplay data={data} />
 			</DialogTrigger>
 			<TaskFullDialog data={data} />
