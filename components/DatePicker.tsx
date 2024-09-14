@@ -15,7 +15,9 @@ import {
 
 export function DatePickerDemo({
 	setDueDate,
+	selectedDate,
 }: {
+	selectedDate?: string;
 	setDueDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }) {
 	const [date, setDate] = React.useState<Date>();

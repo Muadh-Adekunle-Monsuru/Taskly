@@ -10,7 +10,7 @@ export default function PanelToggle() {
 	return (
 		<PanelLeft
 			className={cn(
-				'size-5  cursor-pointer',
+				'size-5  cursor-pointer m-4',
 				isOpen ? 'opacity-0' : 'opacity-100'
 			)}
 			onClick={togglePanel}

@@ -42,6 +42,25 @@ export const deleteTask = mutation({
 	},
 });
 
+export const updateTask = mutation({
+	args: {
+		_id: v.id('documents'),
+		data: v.object({
+			content: v.optional(v.string()),
+			description: v.optional(v.string()),
+			priority: v.optional(v.string()),
+			indent: v.optional(v.string()),
+			dueDate: v.optional(v.string()),
+			label: v.optional(v.string()),
+			project: v.optional(v.string()),
+		}),
+	},
+	handler: async (ctx, args) => {
+		console.log('updating', args.data);
+		await ctx.db.patch(args._id, { ...args.data });
+	},
+});
+
 export const getAllTasks = query({
 	args: { userId: v.string() },
 	handler: async (ctx, args) => {
