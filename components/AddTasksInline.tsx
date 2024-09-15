@@ -28,12 +28,18 @@ import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs';
 import { nanoid } from 'nanoid';
 
-export default function AddTasksInline({ today = true }: { today?: boolean }) {
-	const [showExpanded, setShowExpanded] = useState(false);
+export default function AddTasksInline({
+	today = true,
+	expanded,
+}: {
+	today?: boolean;
+	expanded?: boolean;
+}) {
+	const [showExpanded, setShowExpanded] = useState(expanded || false);
 	const [content, setContent] = useState('');
 	const [description, setDescription] = useState('');
 	const [priority, setPriority] = useState('');
-	const [label, setLabel] = useState('');
+	const [label, setLabel] = useState([]);
 	const [dueDate, setDueDate] = useState<Date | undefined>();
 	const mutation = useMutation(api.actions.createTask);
 	const { user } = useUser();
@@ -100,6 +106,7 @@ export default function AddTasksInline({ today = true }: { today?: boolean }) {
 					</div>
 					<DropdownMenuSeparator />
 					<div className='flex w-full items-center justify-between py-2'>
+						<div />
 						<div className='flex gap-2 items-center'>
 							<Button
 								variant={'ghost'}

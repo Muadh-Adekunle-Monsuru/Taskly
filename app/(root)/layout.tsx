@@ -1,4 +1,5 @@
 'use client';
+import { CommandDialogDemo } from '@/components/PopupSearch';
 import MobileSidebarButton from '@/components/sidebar/MobileSidebarButton';
 import { ModeToggle } from '@/components/sidebar/ModeToggle';
 import SidebarContent from '@/components/sidebar/SidebarContent';
@@ -52,6 +53,7 @@ export default function DashboardLayout({
 			<ResizablePanel order={2} id={'main-body'} defaultSize={80}>
 				<div className='w-full h-screen overflow-y-auto'>
 					<PanelToggle />
+					<CommandDialogDemo />
 					{isMobile && <MobileSidebarButton />}
 					{children}
 				</div>

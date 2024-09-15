@@ -68,10 +68,14 @@ function TaskListDisplay({ data }: { data: TaskProp }) {
 					</span>
 				)}
 
-				{label && (
+				{label.length > 0 && (
 					<span className='flex items-center gap-1'>
-						<Tag className='size-3' />
-						{label}
+						{label.map((item) => (
+							<div className='flex gap-1 items-center'>
+								<Tag className='size-3' />
+								{item}
+							</div>
+						))}
 					</span>
 				)}
 			</div>

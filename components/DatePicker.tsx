@@ -58,7 +58,7 @@ export function DatePickerDemo({
 					{date ? (
 						<p>{formatDateString(date.toISOString())}</p>
 					) : (
-						<p>Due date</p>
+						<p className='text-sm'>Due date</p>
 					)}
 				</Button>
 			</PopoverTrigger>

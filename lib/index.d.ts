@@ -4,7 +4,7 @@ export type TaskProp = {
 	priority?: string;
 	indent?: string;
 	dueDate?: string;
-	label?: string;
+	label?: string[];
 	createdDate: string;
 	taskId: string;
 };

@@ -19,11 +19,12 @@ export const createTask = mutation({
 				priority: v.optional(v.string()),
 				indent: v.optional(v.string()),
 				dueDate: v.optional(v.string()),
-				label: v.optional(v.string()),
+				label: v.optional(v.array(v.string())),
 				createdDate: v.string(),
 				taskId: v.string(),
 			})
 		),
+		labels: v.optional(v.array(v.string())),
 	},
 	handler: async (ctx, args) => {
 		const userData = await ctx.db
@@ -35,6 +36,7 @@ export const createTask = mutation({
 			const data = await ctx.db.insert('documents', {
 				userId: args.userId,
 				tasks: [...args.data],
+				labels: ['Personal', 'Work', 'School'],
 			});
 		} else {
 			const updatedTask = [...userData.tasks, ...args.data];
@@ -74,7 +76,7 @@ export const updateTask = mutation({
 			priority: v.optional(v.string()),
 			indent: v.optional(v.string()),
 			dueDate: v.optional(v.string()),
-			label: v.optional(v.string()),
+			label: v.optional(v.array(v.string())),
 		}),
 	},
 	handler: async (ctx, args) => {
@@ -101,6 +103,47 @@ export const getAllTasks = query({
 		return tasks.tasks;
 	},
 });
+export const getAllLabels = query({
+	args: { userId: v.string() },
+	handler: async (ctx, args) => {
+		const tasks = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.first();
+
+		return tasks.labels;
+	},
+});
+
+export const addLabel = mutation({
+	args: { userId: v.string(), labelName: v.string() },
+	handler: async (ctx, args) => {
+		const userData = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.first();
+
+		const newLabelList = [...userData.labels, args.labelName];
+
+		await ctx.db.patch(userData._id, { labels: newLabelList });
+	},
+});
+
+export const deleteLabel = mutation({
+	args: { userId: v.string(), labelName: v.string() },
+	handler: async (ctx, args) => {
+		const userData = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.first();
+
+		const newLabelList = userData.labels.filter(
+			(label: string) => label !== args.labelName
+		);
+
+		await ctx.db.patch(userData._id, { labels: newLabelList });
+	},
+});
 
 export const updateOrder = mutation({
 	args: {
@@ -112,7 +155,7 @@ export const updateOrder = mutation({
 				priority: v.optional(v.string()),
 				indent: v.optional(v.string()),
 				dueDate: v.optional(v.string()),
-				label: v.optional(v.string()),
+				label: v.optional(v.array(v.string())),
 				createdDate: v.string(),
 				taskId: v.string(),
 			})

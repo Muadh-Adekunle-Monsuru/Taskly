@@ -58,7 +58,12 @@ export default function UpcomingSortableView({
 					{items
 						.filter((task) => isAfterToday(task.dueDate))
 						.map((task) => (
-							<SortableItem key={task.taskId} id={task.taskId} data={task} />
+							<div className='flex flex-col'>
+								<p className='text-lg font-bold pt-3'>
+									{formatDateString(task.dueDate)}
+								</p>
+								<SortableItem key={task.taskId} id={task.taskId} data={task} />
+							</div>
 						))}
 				</div>
 			</SortableContext>

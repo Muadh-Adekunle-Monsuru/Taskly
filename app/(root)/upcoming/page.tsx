@@ -15,12 +15,6 @@ export default function page() {
 	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
 		userId: user?.id,
 	});
-	// useEffect(() => {
-	// 	if (!tasks) return;
-	// 	const filtered = tasks.filter((task) => isAfterToday(task.dueDate));
-	// 	setUpcomingTask(filtered);
-	// }, [tasks]);
-
 	return (
 		<div className='p-4'>
 			<div className='md:p-5 max-w-[50rem] mx-auto'>

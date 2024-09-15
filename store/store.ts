@@ -4,6 +4,8 @@ type ZustandStore = {
 	toggleSidebar: () => void;
 	isMobile: boolean;
 	setIsMobile: (val: boolean) => void;
+	isAddTaskOpen: boolean;
+	setAddTaskOpen: () => void;
 };
 
 export const useZustandStore = create<ZustandStore>((set) => ({
@@ -14,5 +16,9 @@ export const useZustandStore = create<ZustandStore>((set) => ({
 	isMobile: false,
 	setIsMobile: (val) => {
 		set(() => ({ isMobile: val }));
+	},
+	isAddTaskOpen: false,
+	setAddTaskOpen: () => {
+		set((state) => ({ isAddTaskOpen: !state.isAddTaskOpen }));
 	},
 }));
