@@ -1,4 +1,5 @@
 'use client';
+import AddTasksInline from '@/components/AddTasksInline';
 import SortableComponent from '@/components/SortableView';
 import TodaySortableComponent from '@/components/TodaySortableView';
 import PanelToggle from '@/components/ui/PanelToggle';
@@ -35,6 +36,7 @@ export default function page() {
 						<TodaySortableComponent data={tasks} userId={user?.id} />
 					)}
 				</div>
+				<AddTasksInline today />
 			</div>
 		</div>
 	);

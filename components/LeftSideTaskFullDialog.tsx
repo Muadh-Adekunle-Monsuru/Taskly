@@ -75,20 +75,6 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 					<span className='text-sm'>Add sub-task</span>
 				</span>
 				<div className='w-full border-b border-b-neutral-200 my-4' />
-				<div className='py-3 flex gap-2 items-center'>
-					{user?.imageUrl ? (
-						<Image
-							src={user?.imageUrl}
-							height={30}
-							width={30}
-							alt='user profile'
-							className='rounded-full'
-						/>
-					) : (
-						<User className='size-4' />
-					)}
-					<Input placeholder='Comment' />
-				</div>
 			</div>
 		</div>
 	);

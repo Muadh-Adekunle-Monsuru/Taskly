@@ -12,7 +12,7 @@ export default function TaskFullDialog({ data }: { data: TaskProp }) {
 			<DialogHeader className=' h-full'>
 				<DialogTitle className='pb-1 border-b border-b-neutral-400 flex gap-2 items-center uppercase'>
 					<Inbox className='size-4' />
-					{data.project}
+					{/* {data.} */}
 				</DialogTitle>
 				<div className='flex w-full h-full gap-3'>
 					<div className='h-full w-2/3'>

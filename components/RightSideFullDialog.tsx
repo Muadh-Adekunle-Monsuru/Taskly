@@ -1,7 +1,6 @@
 'use client';
 import { TaskProp } from '@/lib';
 import React, { useEffect, useState } from 'react';
-import ProjectSelect from './ProjectSelect';
 import PrioritySelect from './PrioritySelect';
 import { DatePickerDemo } from './DatePicker';
 import { useMutation } from 'convex/react';
@@ -13,8 +12,7 @@ import { useUser } from '@clerk/nextjs';
 export default function RightSideFullDialog({ data }: { data: TaskProp }) {
 	const { user } = useUser();
 
-	const prevDate = new Date(data.dueDate);
-	const [project, setProject] = useState(data.project);
+	const prevDate = data.dueDate ? new Date(data.dueDate) : null;
 	const [priority, setPriority] = useState(data.priority);
 	const [dueDate, setDate] = useState<Date | undefined>(prevDate);
 	const [label, setLabel] = useState(data.label);
@@ -22,14 +20,12 @@ export default function RightSideFullDialog({ data }: { data: TaskProp }) {
 
 	useEffect(() => {
 		if (
-			project == data.project &&
 			priority == data.priority &&
 			label == data.label &&
-			dueDate.toISOString() == data.dueDate
+			(dueDate && dueDate?.toISOString()) == data.dueDate
 		)
 			return;
 		const newData = {
-			project: project ?? data.project,
 			priority: priority ?? data.priority,
 			dueDate: dueDate?.toISOString() || data.dueDate,
 			label: label ?? data.label,
@@ -39,14 +35,10 @@ export default function RightSideFullDialog({ data }: { data: TaskProp }) {
 			updateTask({ userId: user?.id, data: newData, taskId: data.taskId });
 		};
 		updateFunction();
-	}, [project, priority, dueDate, label]);
+	}, [priority, dueDate, label]);
 
 	return (
 		<div className='w-full h-full flex flex-col gap-3 p-4'>
-			<div className='flex flex-col gap-1 border-b border-b-neutral-200 pb-2'>
-				<p className='text-sm font-medium text-neutral-600'>Project</p>
-				<ProjectSelect setProject={setProject} defaultValue={data.project} />
-			</div>
 			<div className='flex flex-col gap-1 border-b border-b-neutral-200 pb-2'>
 				<p className='text-sm font-medium text-neutral-600'>Priority</p>
 				<PrioritySelect

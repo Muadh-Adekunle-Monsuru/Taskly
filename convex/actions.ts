@@ -20,7 +20,6 @@ export const createTask = mutation({
 				indent: v.optional(v.string()),
 				dueDate: v.optional(v.string()),
 				label: v.optional(v.string()),
-				project: v.optional(v.string()),
 				createdDate: v.string(),
 				taskId: v.string(),
 			})
@@ -76,7 +75,6 @@ export const updateTask = mutation({
 			indent: v.optional(v.string()),
 			dueDate: v.optional(v.string()),
 			label: v.optional(v.string()),
-			project: v.optional(v.string()),
 		}),
 	},
 	handler: async (ctx, args) => {
@@ -115,7 +113,6 @@ export const updateOrder = mutation({
 				indent: v.optional(v.string()),
 				dueDate: v.optional(v.string()),
 				label: v.optional(v.string()),
-				project: v.optional(v.string()),
 				createdDate: v.string(),
 				taskId: v.string(),
 			})

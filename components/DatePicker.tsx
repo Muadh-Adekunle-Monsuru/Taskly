@@ -16,13 +16,23 @@ import {
 export function DatePickerDemo({
 	setDueDate,
 	selectedDate,
+	today,
 }: {
+	today?: boolean;
 	selectedDate?: string;
 	setDueDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }) {
 	const prevDate = new Date(selectedDate || null);
-	const [isOpen, setIsOpen] = React.useState(false);
 	const [date, setDate] = React.useState(selectedDate ? prevDate : null);
+
+	React.useEffect(() => {
+		if (today) {
+			setDate(new Date());
+			setDueDate(new Date());
+		}
+	}, [today]);
+
+	const [isOpen, setIsOpen] = React.useState(false);
 	const onSelect = (value: Date | undefined) => {
 		if (!value) return;
 		setDate(value);

@@ -33,6 +33,7 @@ export const formatDateString = (isoString) => {
 };
 
 export const isAfterToday = (isoDateString) => {
+	if (!isoDateString) return false;
 	const date = parseISO(isoDateString); // Convert ISO string to Date
 	return isAfter(date, startOfToday()); // Check if the date is after today
 };

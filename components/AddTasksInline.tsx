@@ -23,20 +23,18 @@ import { Button } from './ui/button';
 import { DatePickerDemo } from './DatePicker';
 import PrioritySelect from './PrioritySelect';
 import LabelSelect from './LabelSelect';
-import ProjectSelect from './ProjectSelect';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs';
 import { nanoid } from 'nanoid';
 
-export default function AddTasksInline() {
+export default function AddTasksInline({ today = true }: { today?: boolean }) {
 	const [showExpanded, setShowExpanded] = useState(false);
 	const [content, setContent] = useState('');
 	const [description, setDescription] = useState('');
 	const [priority, setPriority] = useState('');
 	const [label, setLabel] = useState('');
 	const [dueDate, setDueDate] = useState<Date | undefined>();
-	const [project, setProject] = useState('inbox');
 	const mutation = useMutation(api.actions.createTask);
 	const { user } = useUser();
 
@@ -55,17 +53,12 @@ export default function AddTasksInline() {
 			priority,
 			label,
 			dueDate: dueDate?.toISOString(),
-			project,
 			createdDate: Date.now().toString(),
 			taskId: nanoid(),
 		};
 		const response = await mutation({ userId: user?.id, data: [data] });
 		setContent('');
 		setDescription('');
-		setPriority('');
-		setLabel('');
-		setDueDate(undefined);
-		setProject('inbox');
 	};
 
 	return (
@@ -107,7 +100,6 @@ export default function AddTasksInline() {
 					</div>
 					<DropdownMenuSeparator />
 					<div className='flex w-full items-center justify-between py-2'>
-						<ProjectSelect setProject={setProject} />
 						<div className='flex gap-2 items-center'>
 							<Button
 								variant={'ghost'}

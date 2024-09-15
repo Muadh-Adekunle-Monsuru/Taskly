@@ -2,7 +2,6 @@
 import { useZustandStore } from '@/store/store';
 import { PanelLeft } from 'lucide-react';
 import AddTaskSidebar from './AddTaskSidebar';
-import CreateProject from './CreateProject';
 import FilterSidebar from './FilterSidebar';
 import InboxSidebar from './InboxSidebar';
 import { ModeToggle } from './ModeToggle';
@@ -31,7 +30,6 @@ export default function SidebarContent() {
 				<Upcoming />
 				<FilterSidebar />
 			</div>
-			<CreateProject />
 			<div className='mt-auto self-start'>
 				<ModeToggle />
 			</div>
