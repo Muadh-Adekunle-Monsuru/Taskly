@@ -1,10 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { format, isToday, isTomorrow, isYesterday, parseISO } from 'date-fns';
+import { Calendar as CalendarIcon, Sun } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
+import { cn, formatDateString } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -20,35 +20,42 @@ export function DatePickerDemo({
 	selectedDate?: string;
 	setDueDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }) {
-	const prevDate = new Date(selectedDate);
-
+	const prevDate = new Date(selectedDate || null);
+	const [isOpen, setIsOpen] = React.useState(false);
+	const [date, setDate] = React.useState(selectedDate ? prevDate : null);
 	const onSelect = (value: Date | undefined) => {
 		if (!value) return;
+		setDate(value);
 		setDueDate(value);
+		setIsOpen(false);
 	};
 
 	return (
-		<Popover>
+		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
 				<Button
 					variant={'outline'}
 					className={cn(
 						'w-fit justify-start text-left font-normal text-xs',
-						'text-muted-foreground'
+						'text-muted-foreground',
+						isToday(date) && 'text-green-700',
+						isTomorrow(date) && 'text-blue-700',
+						isYesterday(date) && 'text-orange-600'
 					)}
 				>
-					<CalendarIcon className='mr-2 h-4 w-4' />
-					{prevDate ? (
-						format(prevDate, 'MMM dd')
+					<CalendarIcon className={cn('mr-2 h-4 w-4')} />
+
+					{date ? (
+						<p>{formatDateString(date.toISOString())}</p>
 					) : (
-						<span className=''>Due date</span>
+						<p>Due date</p>
 					)}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className='w-auto p-0'>
 				<Calendar
 					mode='single'
-					selected={prevDate}
+					selected={date}
 					onSelect={onSelect}
 					initialFocus
 				/>

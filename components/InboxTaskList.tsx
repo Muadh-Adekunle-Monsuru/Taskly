@@ -20,6 +20,7 @@ export default function InboxTaskList() {
 			</div>
 		);
 	}
+
 	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
 		userId: user?.id,
 	});

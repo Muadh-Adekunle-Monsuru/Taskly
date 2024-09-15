@@ -7,11 +7,11 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { format } from 'date-fns';
+import { format, isToday, isTomorrow, isYesterday, parseISO } from 'date-fns';
 import { TaskProp } from '@/lib';
 import TaskFullDialog from './TaskFullDialog';
 import { Calendar, Check, Circle, GripVertical, Tag } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, formatDateString } from '@/lib/utils';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -22,8 +22,7 @@ function TaskListDisplay({ data }: { data: TaskProp }) {
 	const deleteTask = useMutation(api.actions.deleteTask);
 	const { user } = useUser();
 	return (
-		<div className='w-full cursor-pointer p-2 border-b border-b-neutral-200 relative group'>
-
+		<div className='w-full cursor-pointer p-2 border-b border-b-neutral-200 relative '>
 			<div className='flex items-center gap-2'>
 				<div
 					className={cn(
@@ -56,9 +55,16 @@ function TaskListDisplay({ data }: { data: TaskProp }) {
 			</p>
 			<div className='flex gap-3 text-xs text-neutral-400 font-light pl-6'>
 				{dueDate && (
-					<span className='flex items-center gap-1'>
-						<Calendar className='size-3' />
-						{format(dueDate, 'MMM dd')}
+					<span
+						className={cn(
+							'flex items-center gap-1',
+							isToday(dueDate) && 'text-green-700',
+							isTomorrow(dueDate) && 'text-blue-700',
+							isYesterday(dueDate) && 'text-orange-600'
+						)}
+					>
+						<Calendar className={cn('size-3')} />
+						{formatDateString(dueDate)}
 					</span>
 				)}
 

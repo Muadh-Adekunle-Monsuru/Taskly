@@ -12,9 +12,11 @@ import { useUser } from '@clerk/nextjs';
 
 export default function RightSideFullDialog({ data }: { data: TaskProp }) {
 	const { user } = useUser();
+
+	const prevDate = new Date(data.dueDate);
 	const [project, setProject] = useState(data.project);
 	const [priority, setPriority] = useState(data.priority);
-	const [dueDate, setDate] = useState<Date | undefined>();
+	const [dueDate, setDate] = useState<Date | undefined>(prevDate);
 	const [label, setLabel] = useState(data.label);
 	const updateTask = useMutation(api.actions.updateTask);
 
@@ -22,17 +24,17 @@ export default function RightSideFullDialog({ data }: { data: TaskProp }) {
 		if (
 			project == data.project &&
 			priority == data.priority &&
-			label == data.label
+			label == data.label &&
+			dueDate.toISOString() == data.dueDate
 		)
 			return;
-
 		const newData = {
 			project: project ?? data.project,
 			priority: priority ?? data.priority,
 			dueDate: dueDate?.toISOString() || data.dueDate,
 			label: label ?? data.label,
 		};
-		console.log(newData);
+
 		const updateFunction = async () => {
 			updateTask({ userId: user?.id, data: newData, taskId: data.taskId });
 		};
