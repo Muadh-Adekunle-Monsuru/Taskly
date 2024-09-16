@@ -30,11 +30,13 @@ import { nanoid } from 'nanoid';
 import { useZustandStore } from '@/store/store';
 
 export default function AddTasksInline({
-	today = true,
+	today,
 	expanded,
+	selectedDate,
 }: {
 	today?: boolean;
 	expanded?: boolean;
+	selectedDate?: string;
 }) {
 	const [showExpanded, setShowExpanded] = useState(expanded || false);
 	const [content, setContent] = useState('');
@@ -103,7 +105,11 @@ export default function AddTasksInline({
 						onKeyDown={handleContentInput}
 					/>
 					<div className='flex gap-2 items-center py-2'>
-						<DatePickerDemo setDueDate={setDueDate} />
+						<DatePickerDemo
+							setDueDate={setDueDate}
+							today={today}
+							selectedDate={selectedDate}
+						/>
 						<PrioritySelect setPriority={setPriority} />
 						<LabelSelect setLabel={setLabel} />
 					</div>

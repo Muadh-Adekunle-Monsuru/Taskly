@@ -31,6 +31,11 @@ export function DatePickerDemo({
 			setDueDate(new Date());
 		}
 	}, [today]);
+	React.useEffect(() => {
+		if (selectedDate) {
+			setDueDate(new Date(selectedDate));
+		}
+	}, [selectedDate]);
 
 	const [isOpen, setIsOpen] = React.useState(false);
 	const onSelect = (value: Date | undefined) => {

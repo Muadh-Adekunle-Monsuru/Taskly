@@ -1,5 +1,6 @@
 'use client';
 import AddTasksInline from '@/components/AddTasksInline';
+import EmptyImage from '@/components/EmptyImage';
 import SortableComponent from '@/components/SortableView';
 import TodaySortableComponent from '@/components/TodaySortableView';
 import PanelToggle from '@/components/ui/PanelToggle';
@@ -17,13 +18,14 @@ export default function page() {
 	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
 		userId: user?.id,
 	});
-	// useEffect(() => {
-	// 	if (!tasks) return;
-	// const filtered = tasks.filter(
-	// (task) => formatDateString(task.dueDate) == 'Today'
-	// );
-	// 	setTodayTask(filtered);
-	// }, [tasks]);
+
+	useEffect(() => {
+		if (!tasks) return;
+		const filtered = tasks.filter(
+			(task) => formatDateString(task.dueDate) == 'Today'
+		);
+		setTodayTask(filtered);
+	}, [tasks]);
 
 	return (
 		<div className='p-4 h-full'>
@@ -37,6 +39,7 @@ export default function page() {
 					)}
 				</div>
 				<AddTasksInline today />
+				{todayTask.length == 0 && <EmptyImage />}
 			</div>
 		</div>
 	);

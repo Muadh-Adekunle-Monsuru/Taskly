@@ -2,13 +2,6 @@ import { v } from 'convex/values';
 import { query, mutation } from './_generated/server';
 import { Id } from './_generated/dataModel';
 
-export const get = query({
-	args: {},
-	handler: async (ctx) => {
-		return await ctx.db.query('tasks').collect();
-	},
-});
-
 export const createTask = mutation({
 	args: {
 		userId: v.string(),
@@ -56,6 +49,8 @@ export const deleteTask = mutation({
 			.filter((q) => q.eq(q.field('userId'), args.userId))
 			.first();
 
+		if (!userData) return;
+
 		const updatedTaskList = userData.tasks.filter(
 			(task: any) => task.taskId !== args.taskId
 		);
@@ -85,6 +80,7 @@ export const updateTask = mutation({
 			.filter((q) => q.eq(q.field('userId'), args.userId))
 			.first();
 
+		if (!userData) return;
 		const updatedTaskList = userData.tasks.map((task: any) =>
 			task.taskId == args.taskId ? { ...task, ...args.data } : task
 		);
@@ -100,6 +96,7 @@ export const getAllTasks = query({
 			.filter((q) => q.eq(q.field('userId'), args.userId))
 			.first();
 
+		if (!tasks) return;
 		return tasks.tasks;
 	},
 });
@@ -111,6 +108,7 @@ export const getAllLabels = query({
 			.filter((q) => q.eq(q.field('userId'), args.userId))
 			.first();
 
+		if (!tasks) return;
 		return tasks.labels;
 	},
 });
@@ -122,6 +120,8 @@ export const addLabel = mutation({
 			.query('documents')
 			.filter((q) => q.eq(q.field('userId'), args.userId))
 			.first();
+
+		if (!userData || !userData.labels) return;
 
 		const newLabelList = [...userData.labels, args.labelName];
 
@@ -136,6 +136,8 @@ export const deleteLabel = mutation({
 			.query('documents')
 			.filter((q) => q.eq(q.field('userId'), args.userId))
 			.first();
+
+		if (!userData || !userData.labels) return;
 
 		const newLabelList = userData.labels.filter(
 			(label: string) => label !== args.labelName
@@ -167,6 +169,7 @@ export const updateOrder = mutation({
 			.filter((q) => q.eq(q.field('userId'), args.userId))
 			.first();
 
+		if (!userData) return;
 		const updateList = await ctx.db.patch(userData._id, {
 			tasks: args.newArr,
 		});

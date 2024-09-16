@@ -9,9 +9,37 @@ import SearchButton from './SearchButton';
 import TodaySidebar from './TodaySidebar';
 import Upcoming from './Upcoming';
 import UserDropdown from './UserDropdown';
+import { useUser } from '@clerk/nextjs';
+import { TaskProp } from '@/lib';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { useEffect, useState } from 'react';
+import { formatDateString, isAfterToday } from '@/lib/utils';
 
 export default function SidebarContent() {
 	const togglePanel = useZustandStore((state) => state.toggleSidebar);
+	const { user } = useUser();
+	const [inboxCount, setInboxCount] = useState(0);
+	const [todayCount, setTodayCount] = useState(0);
+	const [upcomingCount, setUpcomingCount] = useState(0);
+
+	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
+		userId: user?.id,
+	});
+
+	useEffect(() => {
+		if (!tasks) return;
+		setInboxCount(tasks.length);
+
+		const filtered = tasks.filter(
+			(task) => formatDateString(task.dueDate) == 'Today'
+		);
+		setTodayCount(filtered.length);
+
+		const upcomingList = tasks.filter((task) => isAfterToday(task.dueDate));
+		setUpcomingCount(upcomingList.length);
+	}, [tasks]);
+
 	return (
 		<div className='w-full h-full flex flex-col items-center p-3 gap-3 bg-neutral-50 dark:bg-neutral-800'>
 			<div className='flex items-center justify-between w-full'>
@@ -25,9 +53,9 @@ export default function SidebarContent() {
 			<div className='w-full'>
 				<AddTaskSidebar />
 				<SearchButton />
-				<InboxSidebar />
-				<TodaySidebar />
-				<Upcoming />
+				<InboxSidebar count={inboxCount} />
+				<TodaySidebar count={todayCount} />
+				<Upcoming count={upcomingCount} />
 				<FilterSidebar />
 			</div>
 			<div className='mt-auto self-start'>

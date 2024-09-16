@@ -17,7 +17,7 @@ import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { useUser } from '@clerk/nextjs';
 
-function TaskListDisplay({ data }: { data: TaskProp }) {
+export function TaskListDisplay({ data }: { data: TaskProp }) {
 	const { content, dueDate, label, priority, description, taskId } = data;
 	const deleteTask = useMutation(api.actions.deleteTask);
 	const { user } = useUser();

@@ -8,9 +8,17 @@ import { format } from 'date-fns';
 import TaskItem from './TaskItem';
 import SortableComponent from './SortableView';
 import { TaskProp } from '@/lib';
+import EmptyImage from './EmptyImage';
+import { User } from '@clerk/nextjs/server';
 
-export default function InboxTaskList() {
-	const { user } = useUser();
+export default function InboxTaskList({
+	tasks,
+	user,
+}: {
+	tasks: TaskProp[];
+	user: User;
+}) {
+	// const { user } = useUser();
 
 	if (!user) {
 		return (
@@ -20,10 +28,6 @@ export default function InboxTaskList() {
 			</div>
 		);
 	}
-
-	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
-		userId: user?.id,
-	});
 
 	return (
 		<div className='flex flex-col gap-1'>

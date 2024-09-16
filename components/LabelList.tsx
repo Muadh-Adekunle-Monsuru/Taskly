@@ -1,34 +1,60 @@
 'use client';
 import { api } from '@/convex/_generated/api';
+import { TaskProp } from '@/lib';
 import { useUser } from '@clerk/nextjs';
 import { useMutation, useQuery } from 'convex/react';
 import { Tag, Trash } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from '@/components/ui/accordion';
+import TaskItem from './TaskItem';
 
 export default function LabelList() {
 	const { user } = useUser();
-	const labels = useQuery(api.actions.getAllLabels, {
+	const [groups, setGroups] = useState([]);
+	const labels: string[] = useQuery(api.actions.getAllLabels, {
 		userId: user?.id,
 	});
+
+	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
+		userId: user?.id,
+	});
+
+	useEffect(() => {
+		if (!labels || !tasks) return;
+		let list = labels.map((label) => {
+			return {
+				label,
+				list: tasks.filter((task) => task.label.includes(label)),
+			};
+		});
+		setGroups(list);
+		console.log(list);
+	}, [labels, tasks]);
 
 	const deleteLabel = useMutation(api.actions.deleteLabel);
 	return (
 		<div className='py-4'>
-			{labels &&
-				labels.map((label) => (
-					<div className='flex items-center justify-between group text-neutral-700 border-b p-2 py-3'>
-						<div className='flex gap-3 items-center'>
-							<Tag className='size-4' />
-							{label}
-						</div>
-						<Trash
-							className='size-4 opacity-0 group-hover:opacity-100 transition-colors hover:text-black cursor-pointer'
-							onClick={() => {
-								deleteLabel({ userId: user.id, labelName: label });
-							}}
-						/>
-					</div>
-				))}
+			<Accordion type='single' collapsible>
+				{groups &&
+					groups.map((item, index) => (
+						<AccordionItem value={item.label} key={index}>
+							<AccordionTrigger>
+								<Tag className='size-4' />
+								{item.label}
+							</AccordionTrigger>
+							<AccordionContent>
+								{item.list.map((card) => (
+									<TaskItem data={card} />
+								))}
+							</AccordionContent>
+						</AccordionItem>
+					))}
+			</Accordion>
 		</div>
 	);
 }

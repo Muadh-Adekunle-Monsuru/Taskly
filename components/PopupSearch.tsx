@@ -1,7 +1,17 @@
 'use client';
 
 import * as React from 'react';
-import { CalendarIcon, Mail, User, Settings, RocketIcon } from 'lucide-react';
+import {
+	CalendarIcon,
+	Mail,
+	User,
+	Settings,
+	RocketIcon,
+	Inbox,
+	CalendarDays,
+	Tags,
+	Circle,
+} from 'lucide-react';
 
 import {
 	CommandDialog,
@@ -14,16 +24,33 @@ import {
 	CommandShortcut,
 } from '@/components/ui/command';
 import { useZustandStore } from '@/store/store';
+import Link from 'next/link';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { useUser } from '@clerk/nextjs';
+import { TaskProp } from '@/lib';
+import { Dialog, DialogTrigger } from './ui/dialog';
+import TaskFullDialog from './TaskFullDialog';
+import { TaskListDisplay } from './TaskItem';
 
 export function CommandDialogDemo() {
-	const [open, setOpen] = React.useState(false);
+	// const [open, setOpen] = React.useState(false);
+	const isSearchOpen = useZustandStore((state) => state.isSearchOpen);
+	const setSearchOpen = useZustandStore((state) => state.setSearchOpen);
 	const setIsAddTaskOpen = useZustandStore((state) => state.setAddTaskOpen);
 	const isOpen = useZustandStore((state) => state.isAddTaskOpen);
+	const [searchValue, setSearchValue] = React.useState('');
+	const { user } = useUser();
+
+	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
+		userId: user?.id,
+	});
+
 	React.useEffect(() => {
 		const down = (e: KeyboardEvent) => {
 			if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
-				setOpen((open) => !open);
+				setSearchOpen();
 			}
 		};
 
@@ -56,51 +83,65 @@ export function CommandDialogDemo() {
 	}, [isOpen]);
 
 	return (
-		<>
-			<p className='text-sm text-muted-foreground hidden'>
-				Press{' '}
-				<kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
-					<span className='text-xs'>⌘</span>J
-				</kbd>
-			</p>
-			<CommandDialog open={open} onOpenChange={setOpen}>
-				<CommandInput placeholder='Type a command or search...' />
+		<div className='max-w-[50rem]'>
+			<CommandDialog
+				open={isSearchOpen}
+				onOpenChange={setSearchOpen}
+				// value={searchValue}
+				// onValueChange={(e) => {
+				// 	setSearchValue(e);
+				// }}
+			>
+				<CommandInput
+					placeholder='Type a command or search...'
+					className='max-w-[50rem]'
+				/>
 				<CommandList>
 					<CommandEmpty>No results found.</CommandEmpty>
-					<CommandGroup heading='Suggestions'>
-						<CommandItem>
-							<CalendarIcon className='mr-2 h-4 w-4' />
-							<span>Calendar</span>
+					<CommandGroup heading='Pages'>
+						<CommandItem asChild>
+							<Link href={'/inbox'} onClick={() => setSearchOpen()}>
+								<Inbox className='mr-2 h-4 w-4' />
+								<span>Inbox</span>
+							</Link>
 						</CommandItem>
-						<CommandItem>
-							<User className='mr-2 h-4 w-4' />
-							<span>Search Emoji</span>
+						<CommandItem asChild>
+							<Link href={'/today'} onClick={() => setSearchOpen()}>
+								<CalendarIcon className='mr-2 h-4 w-4' />
+								<span>Today</span>
+							</Link>
 						</CommandItem>
-						<CommandItem>
-							<RocketIcon className='mr-2 h-4 w-4' />
-							<span>Launch</span>
+						<CommandItem asChild>
+							<Link href={'/upcoming'} onClick={() => setSearchOpen()}>
+								<CalendarDays className='mr-2 h-4 w-4' />
+								<span>Upcoming</span>
+							</Link>
+						</CommandItem>
+						<CommandItem asChild>
+							<Link href={'/labels'} onClick={() => setSearchOpen()}>
+								<Tags className='mr-2 h-4 w-4' />
+								<span>Labels</span>
+							</Link>
 						</CommandItem>
 					</CommandGroup>
 					<CommandSeparator />
-					<CommandGroup heading='Settings'>
-						<CommandItem>
-							<User className='mr-2 h-4 w-4' />
-							<span>Profile</span>
-							<CommandShortcut>⌘P</CommandShortcut>
-						</CommandItem>
-						<CommandItem>
-							<Mail className='mr-2 h-4 w-4' />
-							<span>Mail</span>
-							<CommandShortcut>⌘B</CommandShortcut>
-						</CommandItem>
-						<CommandItem>
-							<Settings className='mr-2 h-4 w-4' />
-							<span>Settings</span>
-							<CommandShortcut>⌘S</CommandShortcut>
-						</CommandItem>
+					<CommandGroup heading='Task'>
+						{tasks &&
+							tasks.map((task) => (
+								<CommandItem>
+									{/* <Circle className='mr-2 h-4 w-4' /> */}
+									{/* <span>{task.content}</span> */}
+									<Dialog>
+										<DialogTrigger className='w-full'>
+											<TaskListDisplay data={task} />
+										</DialogTrigger>
+										<TaskFullDialog data={task} />
+									</Dialog>
+								</CommandItem>
+							))}
 					</CommandGroup>
 				</CommandList>
 			</CommandDialog>
-		</>
+		</div>
 	);
 }

@@ -1,7 +1,6 @@
 'use client';
 import { CommandDialogDemo } from '@/components/PopupSearch';
 import MobileSidebarButton from '@/components/sidebar/MobileSidebarButton';
-import { ModeToggle } from '@/components/sidebar/ModeToggle';
 import SidebarContent from '@/components/sidebar/SidebarContent';
 import PanelToggle from '@/components/ui/PanelToggle';
 import {
@@ -10,8 +9,7 @@ import {
 	ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import { useZustandStore } from '@/store/store';
-import { PanelLeft } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function DashboardLayout({
 	children,
@@ -36,6 +34,7 @@ export default function DashboardLayout({
 		// Clean up the event listener on component unmount
 		return () => window.removeEventListener('resize', checkMobile);
 	}, []);
+
 	return (
 		<ResizablePanelGroup
 			direction='horizontal'
