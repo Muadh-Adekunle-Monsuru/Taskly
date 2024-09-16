@@ -9,6 +9,10 @@ import { Check, Plus, Text, User } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { Input } from './ui/input';
+import AddTasksInline from './AddTasksInline';
+import CreateInlineComment from './CreateInlineComment';
+import TaskItem from './TaskItem';
+import CommentItem from './CommentItem';
 
 export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 	const deleteTask = useMutation(api.actions.deleteTask);
@@ -52,14 +56,12 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 				/>
 			</div>
 			<div className='w-full'>
-				{/* <p className='text-xl font-semibold'>{data.content}</p> */}
 				<Input
 					value={content}
 					className='border-0 p-0 h-fit text-xl font-semibold dark:text-neutral-200'
 					autoFocus={false}
 					onChange={(e) => setContent(e.target.value)}
 				/>
-
 				<div className='flex gap-1 items-center'>
 					<Text className='size-3 text-neutral-500' />
 					<Input
@@ -69,12 +71,9 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 						className='border-0 h-fit p-0 text-sm text-neutral-400 focus:border-b text-wrap'
 					/>
 				</div>
-
-				<span className='flex gap-1 w-fit items-center mt-9 text-neutral-400 p-1 hover:text-neutral-800 hover:bg-neutral-100 transition-colors rounded-md cursor-pointer'>
-					<Plus className='size-3' />
-					<span className='text-sm'>Add sub-task</span>
-				</span>
-				<div className='w-full border-b border-b-neutral-200 my-4' />
+				{data.comments &&
+					data.comments.map((comment) => <CommentItem data={comment} />)}
+				<CreateInlineComment parentId={data.taskId} />
 			</div>
 		</div>
 	);

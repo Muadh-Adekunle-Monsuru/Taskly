@@ -19,12 +19,8 @@ export default defineSchema({
 						v.object({
 							content: v.string(),
 							description: v.optional(v.string()),
-							priority: v.optional(v.string()),
-							indent: v.optional(v.string()),
-							dueDate: v.optional(v.string()),
-							label: v.optional(v.array(v.string())),
 							createdDate: v.string(),
-							taskId: v.string(),
+							commentId: v.string(),
 						})
 					)
 				),

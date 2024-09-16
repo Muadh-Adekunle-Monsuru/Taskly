@@ -175,3 +175,36 @@ export const updateOrder = mutation({
 		});
 	},
 });
+
+export const createComment = mutation({
+	args: {
+		userId: v.string(),
+		parentId: v.string(),
+		data: v.object({
+			content: v.string(),
+			description: v.optional(v.string()),
+			createdDate: v.string(),
+			commentId: v.string(),
+		}),
+	},
+	handler: async (ctx, args) => {
+		const userData = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.first();
+
+		if (!userData) return;
+
+		const taskToUpdate = userData.tasks.find(
+			(task) => task.taskId == args.parentId
+		);
+
+		const update = userData.tasks.map((task) =>
+			task.taskId !== args.parentId
+				? task
+				: { ...task, comments: [...(task.comments || []), args.data] }
+		);
+
+		await ctx.db.patch(userData._id, { tasks: update });
+	},
+});
