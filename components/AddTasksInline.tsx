@@ -27,6 +27,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs';
 import { nanoid } from 'nanoid';
+import { useZustandStore } from '@/store/store';
 
 export default function AddTasksInline({
 	today = true,
@@ -43,6 +44,8 @@ export default function AddTasksInline({
 	const [dueDate, setDueDate] = useState<Date | undefined>();
 	const mutation = useMutation(api.actions.createTask);
 	const { user } = useUser();
+
+	const setIsAddTaskOpen = useZustandStore((state) => state.setAddTaskOpen);
 
 	const handleContentInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key == 'Enter') {
@@ -111,11 +114,21 @@ export default function AddTasksInline({
 							<Button
 								variant={'ghost'}
 								size={'sm'}
-								onClick={() => setShowExpanded(false)}
+								onClick={() => {
+									if (expanded) {
+										setIsAddTaskOpen();
+									}
+									setShowExpanded(false);
+								}}
 							>
 								Cancel
 							</Button>
-							<Button size={'sm'} onClick={() => handleCreateTask()}>
+							<Button
+								size={'sm'}
+								onClick={() => {
+									handleCreateTask();
+								}}
+							>
 								Add task
 							</Button>
 						</div>

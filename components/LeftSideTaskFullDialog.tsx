@@ -55,7 +55,7 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 				{/* <p className='text-xl font-semibold'>{data.content}</p> */}
 				<Input
 					value={content}
-					className='border-0 p-0 h-fit text-xl font-semibold '
+					className='border-0 p-0 h-fit text-xl font-semibold dark:text-neutral-200'
 					autoFocus={false}
 					onChange={(e) => setContent(e.target.value)}
 				/>

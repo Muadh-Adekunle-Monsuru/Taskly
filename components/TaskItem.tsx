@@ -22,17 +22,17 @@ function TaskListDisplay({ data }: { data: TaskProp }) {
 	const deleteTask = useMutation(api.actions.deleteTask);
 	const { user } = useUser();
 	return (
-		<div className='w-full cursor-pointer p-2 border-b border-b-neutral-200 relative '>
+		<div className='w-full cursor-pointer p-2 border-b border-b-neutral-200 dark:border-b-neutral-700 relative '>
 			<div className='flex items-center gap-2'>
 				<div
 					className={cn(
-						'size-5 border  text-neutral-600 rounded-full flex items-center justify-center group ',
+						'size-5 border  text-neutral-600 dark:border-neutral-600 rounded-full flex items-center justify-center group ',
 						priority == '3' &&
-							' text-transparent bg-blue-50 border-2 border-blue-500',
+							' text-transparent bg-blue-50 dark:bg-blue-200 border-2 border-blue-500 dark:border-blue-300',
 						priority == '2' &&
-							' text-transparent bg-orange-50 border-2 border-orange-500',
+							' text-transparent bg-orange-50 dark:bg-orange-200 border-2 border-orange-500 dark:border-orange-300',
 						priority == '1' &&
-							' text-transparent bg-red-50 border-2 border-red-500'
+							' text-transparent bg-red-50 dark:bg-red-200 border-2 border-red-500 dark:border-red-500'
 					)}
 					onClick={async (e) => {
 						e.stopPropagation();

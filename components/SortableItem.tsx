@@ -21,7 +21,7 @@ export function SortableItem({ id, data }: { id: string; data: TaskProp }) {
 			ref={setNodeRef}
 			style={style}
 			{...attributes}
-			className='w-full flex gap-2 items-center group bg-white'
+			className='w-full flex gap-2 items-center group bg-white dark:bg-[#1f1f1f]'
 		>
 			<GripVertical
 				{...listeners}

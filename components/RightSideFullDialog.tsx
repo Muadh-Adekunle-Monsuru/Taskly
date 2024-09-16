@@ -38,20 +38,26 @@ export default function RightSideFullDialog({ data }: { data: TaskProp }) {
 	}, [priority, dueDate, label]);
 
 	return (
-		<div className='w-full h-full flex flex-col gap-3 p-4'>
+		<div className='w-full h-full flex flex-col gap-3 p-4 dark:bg-[#1f1f1f] dark:text-neutral-300'>
 			<div className='flex flex-col gap-1 border-b border-b-neutral-200 pb-2'>
-				<p className='text-sm font-medium text-neutral-600'>Priority</p>
+				<p className='text-sm font-medium text-neutral-600  dark:text-neutral-300'>
+					Priority
+				</p>
 				<PrioritySelect
 					setPriority={setPriority}
 					defaultValue={data.priority}
 				/>
 			</div>
 			<div className='flex flex-col gap-1 border-b border-b-neutral-200 pb-2'>
-				<p className='text-sm font-medium text-neutral-600'>Label</p>
+				<p className='text-sm font-medium text-neutral-600 dark:text-neutral-300'>
+					Label
+				</p>
 				<LabelSelect setLabel={setLabel} defaultValue={data.label} />
 			</div>
 			<div className='flex flex-col gap-1 border-b border-b-neutral-200 pb-2'>
-				<p className='text-sm font-medium text-neutral-600'>Due date</p>
+				<p className='text-sm font-medium text-neutral-600 dark:text-neutral-300'>
+					Due date
+				</p>
 				<DatePickerDemo setDueDate={setDate} selectedDate={data.dueDate} />
 			</div>
 		</div>
