@@ -60,7 +60,7 @@ export default function Home() {
 				</div>
 				<div className='bg-gradient-to-br from-pink-100 to-purple-100 p-3 rounded-3xl flex items-center justify-center'>
 					<Image
-						src={'/pic1.png'}
+						src={'/first.png'}
 						height={1020}
 						width={1920}
 						alt='picture '
