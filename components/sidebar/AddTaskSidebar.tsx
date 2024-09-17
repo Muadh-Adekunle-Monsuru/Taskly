@@ -1,16 +1,13 @@
 'use client';
-import { PlusCircle } from 'lucide-react';
-import React from 'react';
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
-	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import AddTasksInline from '../AddTasksInline';
 import { useZustandStore } from '@/store/store';
+import { PlusCircle } from 'lucide-react';
+import AddTasksInline from '../AddTasksInline';
 
 function SidebarButton() {
 	return (

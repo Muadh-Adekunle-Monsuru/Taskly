@@ -1,13 +1,12 @@
 'use client';
-import { TaskProp } from '@/lib';
-import React, { useEffect, useState } from 'react';
-import PrioritySelect from './PrioritySelect';
-import { DatePickerDemo } from './DatePicker';
-import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
-import LabelSelect from './LabelSelect';
+import { TaskProp } from '@/lib';
 import { useUser } from '@clerk/nextjs';
+import { useMutation } from 'convex/react';
+import { useEffect, useState } from 'react';
+import { DatePickerDemo } from './DatePicker';
+import LabelSelect from './LabelSelect';
+import PrioritySelect from './PrioritySelect';
 
 export default function RightSideFullDialog({ data }: { data: TaskProp }) {
 	const { user } = useUser();

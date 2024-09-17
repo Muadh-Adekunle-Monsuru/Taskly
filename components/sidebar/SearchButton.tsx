@@ -1,8 +1,6 @@
 'use client';
-import { Search } from 'lucide-react';
-import React from 'react';
-import { CommandShortcut } from '../ui/command';
 import { useZustandStore } from '@/store/store';
+import { Search } from 'lucide-react';
 
 export default function SearchButton() {
 	const setSearchOpen = useZustandStore((state) => state.setSearchOpen);

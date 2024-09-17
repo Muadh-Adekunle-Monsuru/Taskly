@@ -3,7 +3,6 @@ import { cn } from '@/lib/utils';
 import { Inbox } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
 
 export default function InboxSidebar({ count }: { count: number }) {
 	const pathname = usePathname();

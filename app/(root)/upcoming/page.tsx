@@ -1,18 +1,15 @@
 'use client';
 import AddTasksInline from '@/components/AddTasksInline';
 import EmptyImage from '@/components/EmptyImage';
-import SortableComponent from '@/components/SortableView';
 import TaskItem from '@/components/TaskItem';
-import PanelToggle from '@/components/ui/PanelToggle';
-import UpcomingSortableView from '@/components/UpcomingSortableView';
 import { api } from '@/convex/_generated/api';
 import { TaskProp } from '@/lib';
 import { formatDateString, isAfterToday } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function page() {
+export default function Page() {
 	const { user } = useUser();
 	const [upcomingTask, setUpcomingTask] = useState([]);
 	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
@@ -49,8 +46,8 @@ export default function page() {
 					Upcoming
 				</h1>
 				<div className='h-full '>
-					{Object.entries(upcomingTask).map(([date, tasksForDate]) => (
-						<div className='flex flex-col'>
+					{Object.entries(upcomingTask).map(([date, tasksForDate], index) => (
+						<div className='flex flex-col' key={index}>
 							<p className='text-lg font-bold pt-3'>{formatDateString(date)}</p>
 							{tasksForDate.map((task) => (
 								<div key={task.taskId}>

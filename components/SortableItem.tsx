@@ -1,10 +1,9 @@
 'use client';
-import React from 'react';
+import { TaskProp } from '@/lib';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import TaskItem from './TaskItem';
 import { GripVertical } from 'lucide-react';
-import { TaskProp } from '@/lib';
+import TaskItem from './TaskItem';
 
 // SortableItem which uses useSortable for drag-and-drop behavior
 export function SortableItem({ id, data }: { id: string; data: TaskProp }) {

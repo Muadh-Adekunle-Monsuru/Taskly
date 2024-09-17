@@ -3,16 +3,12 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useUser, useAuth, SignOutButton, useClerk } from '@clerk/nextjs';
+import { Skeleton } from '@/components/ui/skeleton';
+import { SignOutButton, useUser } from '@clerk/nextjs';
 import { ChevronDown, LogOut, Settings, User } from 'lucide-react';
 import Image from 'next/image';
-import { Skeleton } from '@/components/ui/skeleton';
-
-import React from 'react';
 
 function DropDownButton() {
 	const { user, isLoaded } = useUser();
@@ -40,7 +36,6 @@ function DropDownButton() {
 }
 
 export default function UserDropdown() {
-	const { SIgnOut } = useClerk();
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className='outline-none'>

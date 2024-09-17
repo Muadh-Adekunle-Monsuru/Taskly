@@ -1,18 +1,15 @@
 'use client';
 import AddTasksInline from '@/components/AddTasksInline';
 import EmptyImage from '@/components/EmptyImage';
-import SortableComponent from '@/components/SortableView';
 import TodaySortableComponent from '@/components/TodaySortableView';
-import PanelToggle from '@/components/ui/PanelToggle';
 import { api } from '@/convex/_generated/api';
 import { TaskProp } from '@/lib';
 import { formatDateString } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import { isToday } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function page() {
+export default function Page() {
 	const { user } = useUser();
 	const [todayTask, setTodayTask] = useState([]);
 	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {

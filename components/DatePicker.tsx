@@ -1,10 +1,9 @@
 'use client';
 
+import { isToday, isTomorrow, isYesterday } from 'date-fns';
+import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
-import { format, isToday, isTomorrow, isYesterday, parseISO } from 'date-fns';
-import { Calendar as CalendarIcon, Sun } from 'lucide-react';
 
-import { cn, formatDateString } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -12,6 +11,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
+import { cn, formatDateString } from '@/lib/utils';
 
 export function DatePickerDemo({
 	setDueDate,

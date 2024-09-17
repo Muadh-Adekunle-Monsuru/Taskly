@@ -1,10 +1,9 @@
 'use server';
 
 import { google } from '@ai-sdk/google';
-import { CoreMessage, generateText, generateObject } from 'ai';
+import { generateObject } from 'ai';
 
 import { z } from 'zod';
-import { streamText } from 'ai';
 
 export async function generateSubtask(
 	content: string,

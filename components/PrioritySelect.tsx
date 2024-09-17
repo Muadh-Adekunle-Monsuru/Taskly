@@ -1,4 +1,3 @@
-import React from 'react';
 import {
 	Select,
 	SelectContent,
@@ -7,7 +6,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Flag } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React from 'react';
 
 export default function PrioritySelect({
 	setPriority,

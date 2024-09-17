@@ -1,10 +1,9 @@
 import { TaskProp } from '@/lib';
-import React from 'react';
-import { DialogContent, DialogHeader } from './ui/dialog';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { Inbox } from 'lucide-react';
 import LeftSideTaskFullDialog from './LeftSideTaskFullDialog';
 import RightSideFullDialog from './RightSideFullDialog';
+import { DialogContent, DialogHeader } from './ui/dialog';
 
 export default function TaskFullDialog({ data }: { data: TaskProp }) {
 	return (

@@ -1,21 +1,14 @@
-import React, { useState } from 'react';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
-import { Tag, Tags, User } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
-import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
+import { Tag, Tags } from 'lucide-react';
+import React, { useState } from 'react';
 
 export default function LabelSelect({
 	setLabel,
@@ -65,7 +58,7 @@ export default function LabelSelect({
 						<div className='flex items-center gap-2' key={index}>
 							<Checkbox
 								checked={labels.includes(item)}
-								onClick={(e) => handleClick(item)}
+								onClick={() => handleClick(item)}
 							/>
 							<p>{item}</p>
 						</div>

@@ -51,7 +51,7 @@ export default function AddTasksInline({
 			createdDate: Date.now().toString(),
 			taskId: nanoid(),
 		};
-		const response = await mutation({ userId: user?.id, data: [data] });
+		 await mutation({ userId: user?.id, data: [data] });
 		setContent('');
 		setDescription('');
 	};

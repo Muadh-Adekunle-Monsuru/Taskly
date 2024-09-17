@@ -1,22 +1,18 @@
 'use client';
 import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
 import { TaskProp } from '@/lib';
 import { cn } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
 import { useMutation } from 'convex/react';
-import { Check, Plus, Stars, Text, User } from 'lucide-react';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { Input } from './ui/input';
-import AddTasksInline from './AddTasksInline';
-import CreateInlineComment from './CreateInlineComment';
-import TaskItem from './TaskItem';
+import { Check, Stars, Text } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import CommentItem from './CommentItem';
+import CreateInlineComment from './CreateInlineComment';
+import { Input } from './ui/input';
 
-import { Button } from './ui/button';
 import { generateSubtask } from '@/lib/ai-action';
 import { nanoid } from 'nanoid';
+import { Button } from './ui/button';
 export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 	const deleteTask = useMutation(api.actions.deleteTask);
 	const { user } = useUser();

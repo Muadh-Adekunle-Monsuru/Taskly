@@ -1,10 +1,9 @@
 'use client';
 import { api } from '@/convex/_generated/api';
-import { TaskProp } from '@/lib';
 import { cn } from '@/lib/utils';
 import { useMutation } from 'convex/react';
 import { Check } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface CommentProp {
 	content: string;

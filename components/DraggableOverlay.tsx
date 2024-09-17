@@ -1,6 +1,5 @@
 import { TaskProp } from '@/lib';
 import { GripVertical } from 'lucide-react';
-import React, { forwardRef } from 'react';
 import TaskItem from './TaskItem';
 
 // Presentational component for the DragOverlay

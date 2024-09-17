@@ -1,16 +1,16 @@
 'use client';
-import { api } from '@/convex/_generated/api';
-import { TaskProp } from '@/lib';
-import { useUser } from '@clerk/nextjs';
-import { useMutation, useQuery } from 'convex/react';
-import { Tag, Trash } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion';
+import { api } from '@/convex/_generated/api';
+import { TaskProp } from '@/lib';
+import { useUser } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
+import { Tag } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import TaskItem from './TaskItem';
 
 export default function LabelList() {
@@ -26,7 +26,7 @@ export default function LabelList() {
 
 	useEffect(() => {
 		if (!labels || !tasks) return;
-		let list = labels.map((label) => {
+		const list = labels.map((label) => {
 			return {
 				label,
 				list: tasks.filter((task) => task.label.includes(label)),
@@ -36,7 +36,6 @@ export default function LabelList() {
 		console.log(list);
 	}, [labels, tasks]);
 
-	const deleteLabel = useMutation(api.actions.deleteLabel);
 	return (
 		<div className='py-4'>
 			<Accordion type='single' collapsible>
@@ -50,8 +49,8 @@ export default function LabelList() {
 								</div>
 							</AccordionTrigger>
 							<AccordionContent>
-								{item.list.map((card) => (
-									<TaskItem data={card} />
+								{item.list.map((card, index) => (
+									<TaskItem data={card} key={index} />
 								))}
 							</AccordionContent>
 						</AccordionItem>

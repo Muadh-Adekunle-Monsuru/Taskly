@@ -1,33 +1,13 @@
 'use client';
 import {
-	Calendar,
-	ChevronDown,
-	Flag,
-	Hash,
-	Plus,
-	PlusCircle,
-	Tag,
-	Tags,
-} from 'lucide-react';
-import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
-import { Input } from './ui/input';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
+	DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu';
-import { Button } from './ui/button';
-import { DatePickerDemo } from './DatePicker';
-import PrioritySelect from './PrioritySelect';
-import LabelSelect from './LabelSelect';
-import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import { useUser } from '@clerk/nextjs';
+import { useMutation } from 'convex/react';
 import { nanoid } from 'nanoid';
-import { useZustandStore } from '@/store/store';
+import React, { useState } from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 export default function CreateInlineComment({
 	parentId,
@@ -41,7 +21,6 @@ export default function CreateInlineComment({
 	const [description, setDescription] = useState('');
 	const mutation = useMutation(api.actions.createComment);
 
-	const setIsAddTaskOpen = useZustandStore((state) => state.setAddTaskOpen);
 
 	const handleContentInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key == 'Enter') {

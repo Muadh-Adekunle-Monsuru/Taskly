@@ -1,17 +1,7 @@
 'use client';
 
+import { CalendarDays, CalendarIcon, Inbox, Tags } from 'lucide-react';
 import * as React from 'react';
-import {
-	CalendarIcon,
-	Mail,
-	User,
-	Settings,
-	RocketIcon,
-	Inbox,
-	CalendarDays,
-	Tags,
-	Circle,
-} from 'lucide-react';
 
 import {
 	CommandDialog,
@@ -21,17 +11,15 @@ import {
 	CommandItem,
 	CommandList,
 	CommandSeparator,
-	CommandShortcut,
 } from '@/components/ui/command';
-import { useZustandStore } from '@/store/store';
-import Link from 'next/link';
-import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
+import { useZustandStore } from '@/store/store';
 import { useUser } from '@clerk/nextjs';
-import { TaskProp } from '@/lib';
-import { Dialog, DialogTrigger } from './ui/dialog';
+import { useQuery } from 'convex/react';
+import Link from 'next/link';
 import TaskFullDialog from './TaskFullDialog';
 import { TaskListDisplay } from './TaskItem';
+import { Dialog, DialogTrigger } from './ui/dialog';
 
 export function CommandDialogDemo() {
 	// const [open, setOpen] = React.useState(false);
@@ -39,7 +27,6 @@ export function CommandDialogDemo() {
 	const setSearchOpen = useZustandStore((state) => state.setSearchOpen);
 	const setIsAddTaskOpen = useZustandStore((state) => state.setAddTaskOpen);
 	const isOpen = useZustandStore((state) => state.isAddTaskOpen);
-	const [searchValue, setSearchValue] = React.useState('');
 	const { user } = useUser();
 
 	const tasks = useQuery(api.actions.getAllTasks, {

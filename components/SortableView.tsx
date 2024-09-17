@@ -1,13 +1,12 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import {
-	DndContext,
 	closestCenter,
+	DndContext,
+	DragOverlay,
 	KeyboardSensor,
 	PointerSensor,
 	useSensor,
 	useSensors,
-	DragOverlay,
 } from '@dnd-kit/core';
 import {
 	arrayMove,
@@ -15,13 +14,13 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { useEffect, useState } from 'react';
 
-import { SortableItem } from './SortableItem';
-import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import { useUser } from '@clerk/nextjs';
 import { TaskProp } from '@/lib';
+import { useMutation } from 'convex/react';
 import { PresentationalItem } from './DraggableOverlay';
+import { SortableItem } from './SortableItem';
 
 export default function SortableComponent({
 	data,

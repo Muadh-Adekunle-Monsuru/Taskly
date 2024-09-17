@@ -1,6 +1,12 @@
 'use client';
+import { api } from '@/convex/_generated/api';
+import { TaskProp } from '@/lib';
+import { formatDateString, isAfterToday } from '@/lib/utils';
 import { useZustandStore } from '@/store/store';
+import { useUser } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
 import { PanelLeft } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import AddTaskSidebar from './AddTaskSidebar';
 import FilterSidebar from './FilterSidebar';
 import InboxSidebar from './InboxSidebar';
@@ -9,12 +15,6 @@ import SearchButton from './SearchButton';
 import TodaySidebar from './TodaySidebar';
 import Upcoming from './Upcoming';
 import UserDropdown from './UserDropdown';
-import { useUser } from '@clerk/nextjs';
-import { TaskProp } from '@/lib';
-import { useQuery } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { useEffect, useState } from 'react';
-import { formatDateString, isAfterToday } from '@/lib/utils';
 
 export default function SidebarContent() {
 	const togglePanel = useZustandStore((state) => state.toggleSidebar);

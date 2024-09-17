@@ -7,7 +7,7 @@ import { useUser } from '@clerk/nextjs';
 import { User } from '@clerk/nextjs/server';
 import { useQuery } from 'convex/react';
 
-export default function page() {
+export default function Page() {
 	const { user } = useUser();
 	const tasks = useQuery(api.actions.getAllTasks, {
 		userId: user?.id,

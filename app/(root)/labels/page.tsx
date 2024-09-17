@@ -1,10 +1,5 @@
 import AddLabel from '@/components/AddLabel';
 import LabelList from '@/components/LabelList';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import PanelToggle from '@/components/ui/PanelToggle';
-import { Plus } from 'lucide-react';
-import React from 'react';
 
 export default function page() {
 	return (
