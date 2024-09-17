@@ -112,7 +112,7 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 							/>
 						))}
 				</div>
-				<div className='flex items-center justify-between'>
+				<div className='flex flex-col md:flex-row items-center justify-between'>
 					<CreateInlineComment parentId={data.taskId} userId={user.id} />
 					<Button
 						variant='outline'

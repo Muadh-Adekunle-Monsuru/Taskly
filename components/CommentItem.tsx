@@ -42,10 +42,12 @@ export default function CommentItem({
 				/>
 			</div>
 			<div>
-				<p className={cn(deleted && 'line-through')}>{data.content}</p>
+				<p className={cn(deleted && 'line-through', 'text-left')}>
+					{data.content}
+				</p>
 				<p
 					className={cn(
-						'text-xs text-neutral-600 font-light  pb-1',
+						'text-xs text-neutral-600 font-light  pb-1 text-left',
 						deleted && 'line-through'
 					)}
 				>

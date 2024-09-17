@@ -75,7 +75,7 @@ export default function CreateInlineComment({
 					<p className='text-xs'>Add Subtask</p>
 				</Button>
 			) : (
-				<div className=' rounded-lg border px-2 my-3'>
+				<div className=' rounded-lg border px-2 my-3 w-full'>
 					<Input
 						placeholder='Subtask'
 						className='border-0 p-0 font-medium'

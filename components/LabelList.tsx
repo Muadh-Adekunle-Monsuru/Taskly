@@ -44,8 +44,10 @@ export default function LabelList() {
 					groups.map((item, index) => (
 						<AccordionItem value={item.label} key={index}>
 							<AccordionTrigger>
-								<Tag className='size-4' />
-								{item.label}
+								<div className='flex items-center gap-2'>
+									<Tag className='size-4' />
+									{item.label}
+								</div>
 							</AccordionTrigger>
 							<AccordionContent>
 								{item.list.map((card) => (

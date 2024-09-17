@@ -8,6 +8,7 @@ import { isToday, isTomorrow, isYesterday } from 'date-fns';
 import { Calendar, Check, Tag, Workflow } from 'lucide-react';
 import TaskFullDialog from './TaskFullDialog';
 import { useToast } from '@/hooks/use-toast';
+import { useRef } from 'react';
 
 export function TaskListDisplay({ data }: { data: TaskProp }) {
 	const { toast } = useToast();
@@ -15,8 +16,32 @@ export function TaskListDisplay({ data }: { data: TaskProp }) {
 		data;
 	const deleteTask = useMutation(api.actions.deleteTask);
 	const { user } = useUser();
+
+	const audioRef = useRef(null);
+
+	// Function to play the audio when the button is pressed
+	const playSound = async () => {
+		if (audioRef.current) {
+			console.log('Audio element found, trying to play...');
+			audioRef.current
+				.play()
+				.then(() => {
+					console.log('Sound is playing!');
+				})
+				.catch((error) => {
+					console.error('Error playing audio:', error);
+				});
+		} else {
+			console.log('audio not found');
+		}
+	};
+
 	return (
 		<div className='w-full cursor-pointer p-2 border-b border-b-neutral-200 dark:border-b-neutral-700 relative '>
+			<audio ref={audioRef}>
+				<source src='/ping2.mp3' type='audio/mpeg' />
+			</audio>
+
 			<div className='flex items-center gap-2'>
 				<div
 					className={cn(
@@ -34,6 +59,7 @@ export function TaskListDisplay({ data }: { data: TaskProp }) {
 						toast({
 							description: '1 task completed 🌟',
 						});
+						playSound();
 					}}
 				>
 					<Check
