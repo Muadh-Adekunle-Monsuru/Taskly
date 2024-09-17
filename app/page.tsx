@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 function Header() {
 	return (
-		<div className='px-5 pt-5 pb-2 flex items-center justify-between fixed top-0 w-full backdrop-blur-sm bg-white/40 z-40'>
+		<div className='px-5 pt-5 pb-2 flex items-center justify-between w-full backdrop-blur-sm  z-40'>
 			<div className='flex items-center gap-2 cursor-pointer'>
 				<Image
 					src={'/circle-check-big.svg'}
@@ -23,7 +23,10 @@ function Header() {
 }
 export default function Home() {
 	return (
-		<div className='min-h-screen flex flex-col bg-[#FEFDFC]'>
+		<div
+			id='main'
+			className='min-h-screen flex flex-col dark:bg-[#1f1f1f] bg-[#FEFDFC] w-full overflow-x-clip'
+		>
 			<Header />
 			<div className='h-screen flex flex-col items-center justify-center'>
 				<Image
@@ -33,10 +36,10 @@ export default function Home() {
 					width={900}
 					height={100}
 				/>
-				<h1 className='font-bold text-4xl md:text-6xl md:w-1/2 text-center text-[#1f1f1f] py-2'>
+				<h1 className='font-bold text-4xl md:text-6xl md:w-1/2 text-center text-[#1f1f1f] dark:text-neutral-300 py-2'>
 					Organize your work and life, finally.
 				</h1>
-				<p className='text-muted-foreground text-xl md:w-1/2 text-center p-2'>
+				<p className='text-muted-foreground dark:text-neutral-600 text-xl md:w-1/2 text-center p-2'>
 					Taskly makes it frictionless to get all your tasks out of your head
 					and organized in one trusted place.
 				</p>
@@ -47,7 +50,7 @@ export default function Home() {
 					<Link href={'/inbox'}>Start for free</Link>
 				</Button>
 			</div>
-			<div className='h-[90vh] my-10 w-full grid md:grid-cols-2'>
+			<div className='h-[80vh] my-10 w-full grid md:grid-cols-2'>
 				<div>
 					<HomePageCard
 						shortText={'Clear your mind'}
@@ -58,20 +61,20 @@ export default function Home() {
 						mainText={'Capture tasks at the speed of thought'}
 					/>
 				</div>
-				<div className='bg-gradient-to-br from-pink-100 to-purple-100 p-3 rounded-3xl flex items-center justify-center'>
+				<div className='bg-gradient-to-br from-pink-100 dark:from-pink-900 to-purple-100 dark:to-purple-900 p-3 rounded-3xl flex items-center justify-center'>
 					<Image
 						src={'/first.png'}
 						height={1020}
 						width={1920}
 						alt='picture '
-						className='object-cover w-full rounded-3xl border-8 border-neutral-300 shadow-2xl md:scale-150 md:translate-x-[10rem]'
+						className='object-cover w-full rounded-3xl border-8 dark:from-pink-900  dark:to-purple-900 border-neutral-300 shadow-2xl md:scale-150 md:translate-x-[10rem]'
 					/>
 				</div>
 			</div>
-			<div className='h-[90vh] w-full grid md:grid-cols-2'>
-				<div className=' order-2 md:order-1 bg-gradient-to-br from-pink-100 to-purple-100 p-3 rounded-3xl flex items-center justify-center'>
+			<div className='h-[80vh] w-full grid md:grid-cols-2'>
+				<div className=' order-2 md:order-1 bg-gradient-to-br from-pink-100 to-purple-100 p-3  dark:from-pink-900  dark:to-purple-900 rounded-3xl flex items-center justify-center'>
 					<Image
-						src={'/shortcut2.png'}
+						src={'/second.png'}
 						height={1020}
 						width={1920}
 						alt='picture '
@@ -85,13 +88,11 @@ export default function Home() {
 						description={
 							'Achieve mental clarity by sorting tasks into Today, Upcoming, or using custom filters. See only what you need, when you need it.'
 						}
-						mainText={
-							'Capture and organize tasks instantly using easy-flowing shortcuts.'
-						}
+						mainText={'Stay organized and focused.'}
 					/>
 				</div>
 			</div>
-			<div className='h-[90vh] w-full grid md:grid-cols-2'>
+			<div className='h-[80vh] w-full grid md:grid-cols-2'>
 				<div>
 					<HomePageCard
 						shortText={`Work anywhere`}
@@ -102,7 +103,7 @@ export default function Home() {
 						mainText={'In perfect sync across all your devices'}
 					/>
 				</div>
-				<div className='relative top-0 bg-gradient-to-br from-pink-100 to-purple-100 rounded-3xl flex items-center justify-center'>
+				<div className='relative top-0 bg-gradient-to-br from-pink-100 to-purple-100  dark:from-pink-900  dark:to-purple-900 rounded-3xl flex items-center justify-center'>
 					<Image
 						src={'/mobile-pic.png'}
 						height={200}
