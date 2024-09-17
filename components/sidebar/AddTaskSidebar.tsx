@@ -35,6 +35,7 @@ export default function AddTaskSidebar() {
 				<SidebarButton />
 			</DialogTrigger>
 			<DialogContent className='bg-white dark:bg-[#1f1f1f] max-w-[40rem]'>
+				<DialogTitle></DialogTitle>
 				<AddTasksInline expanded />
 			</DialogContent>
 		</Dialog>

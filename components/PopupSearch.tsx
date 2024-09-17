@@ -42,7 +42,7 @@ export function CommandDialogDemo() {
 	const [searchValue, setSearchValue] = React.useState('');
 	const { user } = useUser();
 
-	const tasks: TaskProp[] = useQuery(api.actions.getAllTasks, {
+	const tasks = useQuery(api.actions.getAllTasks, {
 		userId: user?.id,
 	});
 
@@ -128,9 +128,7 @@ export function CommandDialogDemo() {
 					<CommandGroup heading='Task'>
 						{tasks &&
 							tasks.map((task) => (
-								<CommandItem>
-									{/* <Circle className='mr-2 h-4 w-4' /> */}
-									{/* <span>{task.content}</span> */}
+								<CommandItem key={task.taskId}>
 									<Dialog>
 										<DialogTrigger className='w-full'>
 											<TaskListDisplay data={task} />

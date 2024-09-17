@@ -18,8 +18,6 @@ export default function InboxTaskList({
 	tasks: TaskProp[];
 	user: User;
 }) {
-	// const { user } = useUser();
-
 	if (!user) {
 		return (
 			<div className='h-full w-full flex items-center justify-center'>

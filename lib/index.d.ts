@@ -7,12 +7,10 @@ export type TaskProp = {
 	label?: string[];
 	createdDate: string;
 	taskId: string;
-	comments?: [
-		{
-			content: string;
-			description?: string;
-			createdDate: string;
-			commentId: string;
-		},
-	];
+	comments?: {
+		content: string;
+		description?: string;
+		createdDate: string;
+		commentId: string;
+	}[];
 };

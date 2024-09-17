@@ -45,8 +45,8 @@ export default function LabelSelect({
 			<PopoverTrigger className='border p-[0.45rem] text-neutral-600 text-sm border-neutral-200 rounded-md'>
 				{labels.length > 0 ? (
 					<div className=' flex gap-1 items-center divide-x flex-wrap'>
-						{labels.map((item) => (
-							<div className='flex gap-1 items-center px-[0.1rem]'>
+						{labels.map((item, index) => (
+							<div className='flex gap-1 items-center px-[0.1rem]' key={index}>
 								<Tag className='size-3' />
 								{item}
 							</div>

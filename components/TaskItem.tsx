@@ -10,7 +10,14 @@ import {
 import { format, isToday, isTomorrow, isYesterday, parseISO } from 'date-fns';
 import { TaskProp } from '@/lib';
 import TaskFullDialog from './TaskFullDialog';
-import { Calendar, Check, Circle, GripVertical, Tag } from 'lucide-react';
+import {
+	Calendar,
+	Check,
+	Circle,
+	GripVertical,
+	Tag,
+	Workflow,
+} from 'lucide-react';
 import { cn, formatDateString } from '@/lib/utils';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
@@ -18,7 +25,8 @@ import { Id } from '@/convex/_generated/dataModel';
 import { useUser } from '@clerk/nextjs';
 
 export function TaskListDisplay({ data }: { data: TaskProp }) {
-	const { content, dueDate, label, priority, description, taskId } = data;
+	const { content, dueDate, label, priority, description, taskId, comments } =
+		data;
 	const deleteTask = useMutation(api.actions.deleteTask);
 	const { user } = useUser();
 	return (
@@ -54,6 +62,12 @@ export function TaskListDisplay({ data }: { data: TaskProp }) {
 				{description}
 			</p>
 			<div className='flex gap-3 text-xs text-neutral-400 font-light pl-6'>
+				{comments && comments.length > 0 && (
+					<span className='flex items-center gap-1'>
+						<Workflow className='size-4 text-purple-400' />
+						{comments.length}
+					</span>
+				)}
 				{dueDate && (
 					<span
 						className={cn(
@@ -70,8 +84,8 @@ export function TaskListDisplay({ data }: { data: TaskProp }) {
 
 				{label.length > 0 && (
 					<span className='flex items-center gap-1'>
-						{label.map((item) => (
-							<div className='flex gap-1 items-center'>
+						{label.map((item, index) => (
+							<div className='flex gap-1 items-center' key={index}>
 								<Tag className='size-3' />
 								{item}
 							</div>

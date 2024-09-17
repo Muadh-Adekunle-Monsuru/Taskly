@@ -31,14 +31,15 @@ import { useZustandStore } from '@/store/store';
 
 export default function CreateInlineComment({
 	parentId,
+	userId,
 }: {
 	parentId: string;
+	userId: string;
 }) {
 	const [showExpanded, setShowExpanded] = useState(false);
 	const [content, setContent] = useState('');
 	const [description, setDescription] = useState('');
 	const mutation = useMutation(api.actions.createComment);
-	const { user } = useUser();
 
 	const setIsAddTaskOpen = useZustandStore((state) => state.setAddTaskOpen);
 
@@ -49,7 +50,7 @@ export default function CreateInlineComment({
 	};
 
 	const handleCreateTask = async () => {
-		if (!user) return;
+		if (!userId) return;
 		if (!content) return;
 		const data = {
 			content,
@@ -57,7 +58,7 @@ export default function CreateInlineComment({
 			createdDate: Date.now().toString(),
 			commentId: nanoid(),
 		};
-		await mutation({ userId: user?.id, data, parentId });
+		await mutation({ userId, data, parentId });
 		setContent('');
 		setDescription('');
 	};
@@ -68,15 +69,15 @@ export default function CreateInlineComment({
 				<Button
 					variant='ghost'
 					onClick={() => setShowExpanded(true)}
-					className='my-5'
+					className='my-2'
 					size='sm'
 				>
-					<p className='text-xs'>Add Comment</p>
+					<p className='text-xs'>Add Subtask</p>
 				</Button>
 			) : (
 				<div className=' rounded-lg border px-2 my-3'>
 					<Input
-						placeholder='Comment'
+						placeholder='Subtask'
 						className='border-0 p-0 font-medium'
 						value={content}
 						onChange={(e) => setContent(e.target.value)}
@@ -109,7 +110,7 @@ export default function CreateInlineComment({
 									handleCreateTask();
 								}}
 							>
-								Add Comment
+								Add
 							</Button>
 						</div>
 					</div>

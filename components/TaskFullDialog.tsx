@@ -8,14 +8,14 @@ import RightSideFullDialog from './RightSideFullDialog';
 
 export default function TaskFullDialog({ data }: { data: TaskProp }) {
 	return (
-		<DialogContent className='bg-white dark:bg-[#1f1f1f] h-3/4 max-w-[50rem] p-4'>
+		<DialogContent className='bg-white dark:bg-[#1f1f1f] h-3/4 max-w-[50rem] p-4 overflow-y-auto'>
 			<DialogHeader className=' h-full'>
 				<DialogTitle className='pb-1 border-b border-b-neutral-400 flex gap-2 items-center uppercase'>
 					<Inbox className='size-4' />
 					{/* {data.} */}
 				</DialogTitle>
 				<div className='flex w-full h-full gap-3'>
-					<div className='h-full w-2/3'>
+					<div className='h-full w-2/3 '>
 						<LeftSideTaskFullDialog data={data} />
 					</div>
 					<div className='h-full w-1/3 bg-neutral-50 rounded-lg'>

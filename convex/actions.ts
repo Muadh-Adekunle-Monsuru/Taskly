@@ -208,3 +208,36 @@ export const createComment = mutation({
 		await ctx.db.patch(userData._id, { tasks: update });
 	},
 });
+
+export const deleteComment = mutation({
+	args: {
+		userId: v.string(),
+		parentId: v.string(),
+		commentId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		const userData = await ctx.db
+			.query('documents')
+			.filter((q) => q.eq(q.field('userId'), args.userId))
+			.first();
+
+		if (!userData) return;
+
+		const taskToUpdate = userData.tasks.find(
+			(task) => task.taskId == args.parentId
+		);
+
+		const update = userData.tasks.map((task) =>
+			task.taskId !== args.parentId
+				? task
+				: {
+						...task,
+						comments: task.comments?.filter(
+							(comment) => comment.commentId !== args.commentId
+						),
+					}
+		);
+
+		await ctx.db.patch(userData._id, { tasks: update });
+	},
+});

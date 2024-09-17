@@ -30,7 +30,7 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 		});
 	}, [content, description]);
 	return (
-		<div className='flex gap-3 py-5 items-start'>
+		<div className='flex gap-3 py-5 items-start  h-full'>
 			<div
 				className={cn(
 					'size-5 border text-neutral-600 rounded-full flex items-center justify-center group my-1',
@@ -71,9 +71,18 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 						className='border-0 h-fit p-0 text-sm text-neutral-400 focus:border-b text-wrap'
 					/>
 				</div>
-				{data.comments &&
-					data.comments.map((comment) => <CommentItem data={comment} />)}
-				<CreateInlineComment parentId={data.taskId} />
+				<div className='py-3'>
+					{data.comments &&
+						data.comments.map((comment) => (
+							<CommentItem
+								data={comment}
+								parentId={data.taskId}
+								userId={user.id}
+								key={comment.commentId}
+							/>
+						))}
+				</div>
+				<CreateInlineComment parentId={data.taskId} userId={user.id} />
 			</div>
 		</div>
 	);
