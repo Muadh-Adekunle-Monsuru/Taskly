@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ConvexClientProvider } from '@/components/ConvexProvider';
+import { Toaster } from '@/components/ui/toaster';
 
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
@@ -39,6 +40,7 @@ export default function RootLayout({
 							enableSystem
 							disableTransitionOnChange
 						>
+							<Toaster />
 							{children}
 						</ThemeProvider>
 					</body>

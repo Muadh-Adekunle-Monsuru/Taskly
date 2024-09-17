@@ -5,7 +5,7 @@ import { TaskProp } from '@/lib';
 import { cn } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
 import { useMutation } from 'convex/react';
-import { Check, Plus, Text, User } from 'lucide-react';
+import { Check, Plus, Stars, Text, User } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { Input } from './ui/input';
@@ -14,13 +14,17 @@ import CreateInlineComment from './CreateInlineComment';
 import TaskItem from './TaskItem';
 import CommentItem from './CommentItem';
 
+import { Button } from './ui/button';
+import { generateSubtask } from '@/lib/ai-action';
+import { nanoid } from 'nanoid';
 export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 	const deleteTask = useMutation(api.actions.deleteTask);
 	const { user } = useUser();
 	const [content, setContent] = useState(data.content);
 	const [description, setDescription] = useState(data.description);
+	const [loading, setLoading] = useState(false);
 	const updateTask = useMutation(api.actions.updateTask);
-
+	const mutation = useMutation(api.actions.createComment);
 	useEffect(() => {
 		if (content == data.content && description == data.description) return;
 		updateTask({
@@ -29,6 +33,32 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 			userId: user?.id,
 		});
 	}, [content, description]);
+
+	const handleCreateTask = async (content: string, description: string) => {
+		if (!content) return;
+		const subtask = {
+			content,
+			description,
+			createdDate: Date.now().toString(),
+			commentId: nanoid(),
+		};
+		await mutation({ userId: user.id, data: subtask, parentId: data.taskId });
+	};
+
+	const handleGenerateSubtask = async () => {
+		setLoading(true);
+		const otherSubtasks = JSON.stringify(data.comments || '');
+		const responses = await generateSubtask(
+			content,
+			description,
+			otherSubtasks
+		);
+
+		responses.map((subtask) => {
+			handleCreateTask(subtask.content, subtask.description);
+		});
+		setLoading(false);
+	};
 	return (
 		<div className='flex gap-3 py-5 items-start  h-full'>
 			<div
@@ -82,7 +112,19 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 							/>
 						))}
 				</div>
-				<CreateInlineComment parentId={data.taskId} userId={user.id} />
+				<div className='flex items-center justify-between'>
+					<CreateInlineComment parentId={data.taskId} userId={user.id} />
+					<Button
+						variant='outline'
+						onClick={handleGenerateSubtask}
+						size='sm'
+						className=' bg-gradient-to-r from-orange-50 to-red-100'
+						disabled={loading}
+					>
+						<Stars className='size-4 mr-2 animate-pulse text-orange-400' />
+						{loading ? 'Generating' : 'Generate'}
+					</Button>
+				</div>
 			</div>
 		</div>
 	);

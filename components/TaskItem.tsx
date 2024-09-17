@@ -1,30 +1,16 @@
-import React from 'react';
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
-import { format, isToday, isTomorrow, isYesterday, parseISO } from 'date-fns';
-import { TaskProp } from '@/lib';
-import TaskFullDialog from './TaskFullDialog';
-import {
-	Calendar,
-	Check,
-	Circle,
-	GripVertical,
-	Tag,
-	Workflow,
-} from 'lucide-react';
-import { cn, formatDateString } from '@/lib/utils';
-import { useMutation } from 'convex/react';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
+import { TaskProp } from '@/lib';
+import { cn, formatDateString } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
+import { useMutation } from 'convex/react';
+import { isToday, isTomorrow, isYesterday } from 'date-fns';
+import { Calendar, Check, Tag, Workflow } from 'lucide-react';
+import TaskFullDialog from './TaskFullDialog';
+import { useToast } from '@/hooks/use-toast';
 
 export function TaskListDisplay({ data }: { data: TaskProp }) {
+	const { toast } = useToast();
 	const { content, dueDate, label, priority, description, taskId, comments } =
 		data;
 	const deleteTask = useMutation(api.actions.deleteTask);
@@ -45,6 +31,9 @@ export function TaskListDisplay({ data }: { data: TaskProp }) {
 					onClick={async (e) => {
 						e.stopPropagation();
 						await deleteTask({ taskId, userId: user?.id });
+						toast({
+							description: '1 task completed 🌟',
+						});
 					}}
 				>
 					<Check
