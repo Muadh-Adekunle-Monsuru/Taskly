@@ -8,6 +8,8 @@ type ZustandStore = {
 	setAddTaskOpen: () => void;
 	isSearchOpen: boolean;
 	setSearchOpen: () => void;
+	isSheetOpen: boolean;
+	setIsSheetOpen: () => void;
 };
 
 export const useZustandStore = create<ZustandStore>((set) => ({
@@ -26,5 +28,9 @@ export const useZustandStore = create<ZustandStore>((set) => ({
 	isSearchOpen: false,
 	setSearchOpen: () => {
 		set((state) => ({ isSearchOpen: !state.isSearchOpen }));
+	},
+	isSheetOpen: false,
+	setIsSheetOpen: () => {
+		set((state) => ({ isSheetOpen: !state.isSheetOpen }));
 	},
 }));

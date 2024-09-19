@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 function Header() {
 	return (
-		<div className='px-5 pt-5 pb-2 flex items-center justify-between w-full backdrop-blur-sm  z-40'>
+		<div className='px-5 pt-5 pb-2 flex items-center justify-between w-full   z-40'>
 			<div className='flex items-center gap-2 cursor-pointer'>
 				<Image
 					src={'/circle-check-big.svg'}
@@ -61,18 +61,18 @@ export default function Home() {
 						mainText={'Capture tasks at the speed of thought'}
 					/>
 				</div>
-				<div className='bg-gradient-to-br from-pink-100 dark:from-pink-900 to-purple-100 dark:to-purple-900 p-3 rounded-3xl flex items-center justify-center'>
+				<div className=' p-3 rounded-3xl flex items-center justify-center'>
 					<Image
 						src={'/first.png'}
 						height={1020}
 						width={1920}
 						alt='picture '
-						className='object-cover w-full rounded-3xl border-8 dark:from-pink-900  dark:to-purple-900 border-neutral-300 shadow-2xl md:scale-150 md:translate-x-[10rem]'
+						className='object-cover w-full rounded-3xl border-8 border-neutral-300 shadow-2xl md:scale-150 md:translate-x-[10rem]'
 					/>
 				</div>
 			</div>
 			<div className='h-[80vh] w-full grid md:grid-cols-2'>
-				<div className=' order-2 md:order-1 bg-gradient-to-br from-pink-100 to-purple-100 p-3  dark:from-pink-900  dark:to-purple-900 rounded-3xl flex items-center justify-center'>
+				<div className=' order-2 md:order-1  p-3 rounded-3xl flex items-center justify-center'>
 					<Image
 						src={'/second.png'}
 						height={1020}
@@ -103,7 +103,7 @@ export default function Home() {
 						mainText={'In perfect sync across all your devices'}
 					/>
 				</div>
-				<div className='relative top-0 bg-gradient-to-br from-pink-100 to-purple-100  dark:from-pink-900  dark:to-purple-900 rounded-3xl flex items-center justify-center'>
+				<div className='relative top-0 rounded-3xl flex items-center justify-center'>
 					<Image
 						src={'/mobile-pic.png'}
 						height={200}

@@ -42,7 +42,13 @@ export default function DashboardLayout({
 		>
 			{openSidebar && !isMobile && (
 				<>
-					<ResizablePanel maxSize={25} defaultSize={20} id='sidebar' order={1}>
+					<ResizablePanel
+						maxSize={25}
+						defaultSize={20}
+						id='sidebar'
+						order={1}
+						className='hidden md:block'
+					>
 						<SidebarContent />
 					</ResizablePanel>
 					<ResizableHandle />

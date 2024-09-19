@@ -6,7 +6,7 @@ export default function MobileSidebarButton() {
 	return (
 		<Sheet>
 			<SheetTrigger>
-				<PanelLeft className='size-6' strokeWidth={1.24} />
+				<PanelLeft className='size-6 m-6' strokeWidth={1.24} />
 			</SheetTrigger>
 			<SheetContent side={'left'}>
 				<SidebarContent />
