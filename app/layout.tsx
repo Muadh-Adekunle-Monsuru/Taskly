@@ -32,7 +32,7 @@ export default function RootLayout({
 			<ConvexClientProvider>
 				<html lang='en'>
 					<body
-						className={`${geistSans.variable} ${geistMono.variable} antialiased  font-[family-name:var(--font-geist-sans)]`}
+						className={`${geistSans.variable} ${geistMono.variable} antialiased font-[family-name:var(--font-geist-sans)]`}
 					>
 						<ThemeProvider
 							attribute='class'
@@ -41,8 +41,8 @@ export default function RootLayout({
 							disableTransitionOnChange
 						>
 							{children}
-							<Toaster />
 						</ThemeProvider>
+						<Toaster />
 					</body>
 				</html>
 			</ConvexClientProvider>
