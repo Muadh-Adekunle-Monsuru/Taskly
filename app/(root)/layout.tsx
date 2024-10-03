@@ -41,7 +41,7 @@ export default function DashboardLayout({
 			className='min-h-screen w-full dark:bg-[#1f1f1f] dark:text-gray-400'
 		>
 			{openSidebar && !isMobile && (
-				<div>
+				<>
 					<ResizablePanel
 						maxSize={25}
 						defaultSize={20}
@@ -52,7 +52,7 @@ export default function DashboardLayout({
 						<SidebarContent />
 					</ResizablePanel>
 					<ResizableHandle />
-				</div>
+				</>
 			)}
 
 			<ResizablePanel order={2} id={'main-body'} defaultSize={80}>
