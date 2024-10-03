@@ -14,10 +14,10 @@ export default function TaskFullDialog({ data }: { data: TaskProp }) {
 					{/* {data.} */}
 				</DialogTitle>
 				<div className='flex flex-col md:flex-row w-full h-full gap-3'>
-					<div className='h-full md:w-2/3 w-full order-2 md:order-1 '>
+					<div className='h-full md:w-2/3 w-full order-1 md:order-2 '>
 						<LeftSideTaskFullDialog data={data} />
 					</div>
-					<div className='h-full md:w-1/3 w-full bg-neutral-50 rounded-lg order-1 md:order-2'>
+					<div className='h-fit md:h-full md:w-1/3 w-full bg-neutral-50 rounded-lg order-2 md:order-1'>
 						<RightSideFullDialog data={data} />
 					</div>
 				</div>

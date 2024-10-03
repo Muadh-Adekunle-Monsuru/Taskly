@@ -56,7 +56,7 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 		setLoading(false);
 	};
 	return (
-		<div className='flex gap-3 py-5 items-start  h-full'>
+		<div className='flex gap-3 py-5 items-start h-fit  md:h-full'>
 			<div
 				className={cn(
 					'size-5 border text-neutral-600 rounded-full flex items-center justify-center group my-1',
@@ -108,7 +108,7 @@ export default function LeftSideTaskFullDialog({ data }: { data: TaskProp }) {
 							/>
 						))}
 				</div>
-				<div className='flex flex-col md:flex-row items-center justify-between'>
+				<div className='flex flex-row gap-2 flex-wrap items-center justify-between'>
 					<CreateInlineComment parentId={data.taskId} userId={user.id} />
 					<Button
 						variant='outline'

@@ -1,7 +1,5 @@
 'use client';
-import {
-	DropdownMenuSeparator
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { api } from '@/convex/_generated/api';
 import { useMutation } from 'convex/react';
 import { nanoid } from 'nanoid';
@@ -20,7 +18,6 @@ export default function CreateInlineComment({
 	const [content, setContent] = useState('');
 	const [description, setDescription] = useState('');
 	const mutation = useMutation(api.actions.createComment);
-
 
 	const handleContentInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key == 'Enter') {
@@ -54,7 +51,7 @@ export default function CreateInlineComment({
 					<p className='text-xs'>Add Subtask</p>
 				</Button>
 			) : (
-				<div className=' rounded-lg border px-2 my-3 w-full'>
+				<div className='rounded-lg border px-2 my-3 w-full'>
 					<Input
 						placeholder='Subtask'
 						className='border-0 p-0 font-medium'
